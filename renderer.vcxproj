@@ -128,6 +128,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="include\color.h" />
+    <ClInclude Include="include\ray.h" />
     <ClInclude Include="include\SDL_pixels.h" />
     <ClInclude Include="include\stb_image.h" />
     <ClInclude Include="include\stb_image_write.h" />
@@ -136,6 +137,7 @@
   <ItemGroup>
     <ClCompile Include="src\color.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\ray.cpp" />
     <ClCompile Include="src\vec3.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

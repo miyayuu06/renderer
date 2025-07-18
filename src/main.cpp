@@ -14,9 +14,9 @@ using namespace Renderer;
 
 int main()
 {
-    const char* file = "C:/Users/yunaf/Desktop/testimage.png";
-    const int width = 512;
-    const int height = 512;
+    //const char* file = "C:/Users/yunaf/Desktop/testimage.png";
+    const int width = 1920;
+    const int height = 1020;
     const int CHANNEL_NUM = 3;
 
     uint8_t* pixels = new uint8_t[width * height * CHANNEL_NUM];
@@ -24,19 +24,8 @@ int main()
     uint32_t index = 0;
 
     for (uint32_t i = 0; i < height; i++) {
-        std::cout << "Rendering row: " << i << std::endl;
+        //std::cout << "Rendering row: " << i << std::endl;
         for (uint32_t j = 0; j < width; j++) {
-            /*auto r = double(i) / (width - 1);
-            auto g = double(j) / (height - 1);
-            auto b = 0.0;
-
-            int ir = int(255.999 * r);
-            int ig = int(255.999 * g);
-            int ib = int(255.999 * b);
-            pixels[index++] = ir;
-            pixels[index++] = ig;
-            pixels[index++] = ib;*/
-
             Vec pixel(double(i) / (width - 1), double(j) / (height - 1), 0.0);
             Color::writeColor(pixels, index, pixel);
         }
