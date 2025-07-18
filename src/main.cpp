@@ -8,6 +8,10 @@
 #include "stb_image.h"
 #include "stb_image_write.h"
 
+#include "vec3.h"
+
+using namespace Renderer;
+
 int main()
 {
     const char* file = "C:/Users/yunaf/Desktop/testimage.png";
@@ -19,26 +23,30 @@ int main()
 
     uint32_t index = 0;
 
-    for (uint32_t i = 0; i < width; i++) {
-        for (uint32_t j = 0; j < height / 2; j++) {
-            pixels[index++] = 255;
-            pixels[index++] = 192;
-            pixels[index++] = 203;
-        }
-    }
+    for (uint32_t i = 0; i < height; i++) {
+        std::cout << "Rendering row: " << i << std::endl;
+        for (uint32_t j = 0; j < width; j++) {
+            auto r = double(i) / (width - 1);
+            auto g = double(j) / (height - 1);
+            auto b = 0.0;
 
-    for (uint32_t i = 0; i < width; i++) {
-        for (uint32_t j = height / 2; j < height; j++) {
-            pixels[index++] = 255;
-            pixels[index++] = 238;
-            pixels[index++] = 140;
+            int ir = int(255.999 * r);
+            int ig = int(255.999 * g);
+            int ib = int(255.999 * b);
+            pixels[index++] = ir;
+            pixels[index++] = ig;
+            pixels[index++] = ib;
         }
     }
 
     if (!stbi_write_png("C:/Users/yunaf/Desktop/testimage.png", width, height, CHANNEL_NUM, pixels, width * CHANNEL_NUM)) {
         std::cout << "Hubo un error.\n";
     }
-    std::cout << "Hello World!\n";
+
+    Vec x;
+
+    x.vec_Test();
+
     delete[] pixels;
 }
 
