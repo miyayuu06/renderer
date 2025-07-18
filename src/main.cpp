@@ -8,7 +8,7 @@
 #include "stb_image.h"
 #include "stb_image_write.h"
 
-#include "vec3.h"
+#include "color.h"
 
 using namespace Renderer;
 
@@ -26,7 +26,7 @@ int main()
     for (uint32_t i = 0; i < height; i++) {
         std::cout << "Rendering row: " << i << std::endl;
         for (uint32_t j = 0; j < width; j++) {
-            auto r = double(i) / (width - 1);
+            /*auto r = double(i) / (width - 1);
             auto g = double(j) / (height - 1);
             auto b = 0.0;
 
@@ -35,17 +35,16 @@ int main()
             int ib = int(255.999 * b);
             pixels[index++] = ir;
             pixels[index++] = ig;
-            pixels[index++] = ib;
+            pixels[index++] = ib;*/
+
+            Vec pixel(double(i) / (width - 1), double(j) / (height - 1), 0.0);
+            Color::writeColor(pixels, index, pixel);
         }
     }
 
     if (!stbi_write_png("C:/Users/yunaf/Desktop/testimage.png", width, height, CHANNEL_NUM, pixels, width * CHANNEL_NUM)) {
         std::cout << "Hubo un error.\n";
     }
-
-    Vec x;
-
-    x.vec_Test();
 
     delete[] pixels;
 }
