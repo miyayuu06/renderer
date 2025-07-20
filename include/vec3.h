@@ -16,6 +16,7 @@ namespace Renderer {
 		Vec operator*(double i);
 		double dot(Vec other);
 		Vec cross(Vec other);
+		Vec norm();
 
 		void print();
 

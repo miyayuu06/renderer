@@ -1,6 +1,7 @@
 #include "vec3.h"
 #include <cmath>
 #include <iostream>
+#include <cassert>
 
 namespace Renderer {
 	Vec::Vec() {
@@ -52,6 +53,14 @@ namespace Renderer {
 		double k = _coordinates[0] * other._coordinates[1] - _coordinates[1] * other._coordinates[0];
 		Vec result(i, j, k);
 		return result;
+	}
+
+	Vec Vec::norm() {
+		double module = Vec::length();
+		if (abs(module) < 1e-4) {
+			assert(0);
+		}
+		return (*this) * (1 / module);
 	}
 
 	void Vec::print() {

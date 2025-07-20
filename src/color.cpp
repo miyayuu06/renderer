@@ -2,13 +2,20 @@
 #include <iostream>
 
 namespace Renderer {
+	int Color::valueCorrector(double x) {
+		int result = int(x * 255.999);
+		if (result < 0) {
+			return 0;
+		}
+		if (result > 255) {
+			return 255;
+		}
+		return result;
+	}
+
 	void Color::writeColor(uint8_t* buffer, uint32_t& index, Vec& pixel) {
-		int r = int(pixel[0] * 255.999);
-		int g = int(pixel[1] * 255.999);
-		int b = int(pixel[2] * 255.999);
-		
-		buffer[index++] = r;
-		buffer[index++] = g;
-		buffer[index++] = b;
+		buffer[index++] = valueCorrector(pixel[0]);
+		buffer[index++] = valueCorrector(pixel[1]);
+		buffer[index++] = valueCorrector(pixel[2]);
 	}
 }

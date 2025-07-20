@@ -9,15 +9,36 @@
 #include "stb_image_write.h"
 
 #include "color.h"
+#include "ray.h"
 
 using namespace Renderer;
 
 int main()
 {
     //const char* file = "C:/Users/yunaf/Desktop/testimage.png";
+    const double aspectRatio = 16.0 / 9.0;
     const int width = 1920;
-    const int height = 1020;
+    const int height = int(width / aspectRatio);
     const int CHANNEL_NUM = 3;
+
+    // Camera
+
+    double near = 1.0;
+    double viewportHeight = 2.0;
+    double viewportWidth = viewportHeight * (double(width) / height);
+    Vec cameraCenter(0.0, 0.0, 0.0);
+
+    // Viewport vectors
+
+    Vec viewportHorizontal(viewportWidth, 0.0, 0.0);
+    Vec viewportVertical(0.0, -viewportHeight, 0.0);
+    Vec deltaH = viewportHorizontal * (1.0 / width);
+    Vec deltaV = viewportVertical * (1.0 / height);
+
+    // Upper left coordinates
+
+    Vec upperLeftCorner = cameraCenter + Vec(0.0, 0.0, near) + (viewportHorizontal * -0.5) + (viewportVertical * -0.5);
+    Vec pixel00 = upperLeftCorner + (deltaH + deltaV) * 0.5;
 
     uint8_t* pixels = new uint8_t[width * height * CHANNEL_NUM];
 
@@ -26,8 +47,15 @@ int main()
     for (uint32_t i = 0; i < height; i++) {
         //std::cout << "Rendering row: " << i << std::endl;
         for (uint32_t j = 0; j < width; j++) {
-            Vec pixel(double(i) / (width - 1), double(j) / (height - 1), 0.0);
-            Color::writeColor(pixels, index, pixel);
+            Vec pixel = pixel00 + (deltaV * i) + (deltaH * j);
+            Vec rayDirection = pixel + (-cameraCenter);
+            Ray ray(cameraCenter, rayDirection);
+            
+            Vec normalisedRayDirection = rayDirection.norm();
+
+            Vec color = ray.ray_color();
+
+            Color::writeColor(pixels, index, color);
         }
     }
 

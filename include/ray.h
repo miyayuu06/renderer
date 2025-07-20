@@ -6,7 +6,8 @@ namespace Renderer {
 	public:
 		Ray(Vec point, Vec dir);
 		Vec at(double t);
-
+		Vec ray_color();
+		Vec dir();
 	private:
 		Vec _origin;
 		Vec _direction;
