@@ -14,8 +14,8 @@ namespace Renderer {
 	}
 
 	void Color::writeColor(uint8_t* buffer, uint32_t& index, Vec& pixel) {
-		buffer[index++] = valueCorrector(pixel[0]);
-		buffer[index++] = valueCorrector(pixel[1]);
-		buffer[index++] = valueCorrector(pixel[2]);
+		buffer[index++] = valueCorrector(pixel.r);
+		buffer[index++] = valueCorrector(pixel.g);
+		buffer[index++] = valueCorrector(pixel.b);
 	}
 }

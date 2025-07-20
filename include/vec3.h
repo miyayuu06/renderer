@@ -4,7 +4,20 @@
 namespace Renderer {
 	class Vec {
 	public:
-		double _coordinates[3];
+		union {
+			double _coordinates[3];
+			struct {
+				double x;
+				double y;
+				double z;
+			};
+			struct {
+				double r;
+				double g;
+				double b;
+			};
+		};
+
 		Vec();
 		Vec(double x, double y, double z);
 
