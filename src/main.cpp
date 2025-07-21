@@ -10,6 +10,7 @@
 
 #include "color.h"
 #include "ray.h"
+#include "sphere.h"
 
 using namespace Renderer;
 
@@ -44,16 +45,18 @@ int main()
 
     uint32_t index = 0;
 
+    // Scene
+
+    Sphere firstSphere(Vec(0, 0, 1.0), 0.2);
+
     for (uint32_t i = 0; i < height; i++) {
         //std::cout << "Rendering row: " << i << std::endl;
         for (uint32_t j = 0; j < width; j++) {
             Vec pixel = pixel00 + (deltaV * i) + (deltaH * j);
             Vec rayDirection = pixel + (-cameraCenter);
             Ray ray(cameraCenter, rayDirection);
-            
-            Vec normalisedRayDirection = rayDirection.norm();
 
-            Vec color = ray.ray_color();
+            Vec color = ray.ray_color(firstSphere.sphereCenter, firstSphere.radius);
 
             Color::writeColor(pixels, index, color);
         }

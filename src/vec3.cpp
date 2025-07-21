@@ -42,7 +42,7 @@ namespace Renderer {
 	double Vec::dot(Vec other) {
 		double result = 0;
 		for (int i = 0; i < 3; i++) {
-			result += _coordinates[0] * other._coordinates[0];
+			result += _coordinates[i] * other._coordinates[i];
 		}
 		return result;
 	}
