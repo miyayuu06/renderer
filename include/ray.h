@@ -6,9 +6,8 @@ namespace Renderer {
 	public:
 		Ray(Vec point, Vec dir);
 		Vec at(double t);
-		Vec ray_color(Vec sphereCenter, double radius);
+		Vec origin();
 		Vec dir();
-		bool hitSphere(Vec sphereCenter, double radius);
 	private:
 		Vec _origin;
 		Vec _direction;

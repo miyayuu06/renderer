@@ -9,10 +9,23 @@
 #include "stb_image_write.h"
 
 #include "color.h"
-#include "ray.h"
+#include "hittable.h"
 #include "sphere.h"
 
 using namespace Renderer;
+
+Vec ray_color(Hittable& object, Ray& r) {
+    HitProperties record;
+    bool hitProduced = object.hit(-1000, 1000, r, record);
+    if (hitProduced) {
+        return record.normal;
+    }
+
+    // Background
+    Vec unitVector = r.dir().norm();
+    double a = (unitVector.y + 1.0) * 0.5;
+    return (Vec(1.0, 1.0, 1.0) * (1.0 - a)) + (Vec(0.5, 0.7, 1.0) * a);
+}
 
 int main()
 {
@@ -47,7 +60,8 @@ int main()
 
     // Scene
 
-    Sphere firstSphere(Vec(0, 0, 1.0), 0.2);
+    Sphere firstSphere(Vec(0, 0, 1.0), 0.5);
+    Sphere floor(Vec(0, -8, 1), 6.5);
 
     for (uint32_t i = 0; i < height; i++) {
         //std::cout << "Rendering row: " << i << std::endl;
@@ -56,7 +70,8 @@ int main()
             Vec rayDirection = pixel + (-cameraCenter);
             Ray ray(cameraCenter, rayDirection);
 
-            Vec color = ray.ray_color(firstSphere.sphereCenter, firstSphere.radius);
+            Vec color = ray_color(firstSphere, ray);
+            color = ray_color(floor, ray);
 
             Color::writeColor(pixels, index, color);
         }
