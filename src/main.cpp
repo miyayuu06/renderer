@@ -16,7 +16,8 @@ using namespace Renderer;
 
 Vec ray_color(HittableList& scenery, Ray& r) {
     HitProperties record;
-    if (scenery.hit(0.0001, INFINITY, r, record)) {
+    Interval rangeOfRender(0.0001, INFINITY);
+    if (scenery.hit(rangeOfRender, r, record)) {
         return (record.normal + Vec(1.0, 1.0, 1.0)) * 0.5;
     }
 

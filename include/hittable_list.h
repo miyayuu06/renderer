@@ -10,7 +10,7 @@ namespace Renderer {
 
 		void add(Hittable* h);
 
-		bool hit(double tmin, double tmax, Ray &r, HitProperties& prop);
+		bool hit(Interval& interval, Ray &r, HitProperties& prop);
 
 	private:
 		std::vector<Hittable*> objCollection;

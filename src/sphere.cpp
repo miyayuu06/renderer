@@ -7,7 +7,7 @@ namespace Renderer {
 		radius = r;
 	}
 
-	bool Sphere::hit(double tmin, double tmax, Ray& r, HitProperties& prop) {
+	bool Sphere::hit(Interval& interval, Ray& r, HitProperties& prop) {
 		Vec centerDistance = sphereCenter + (-r.origin());
 		double a = (r.dir()).dot(r.dir());
 		double h = r.dir().dot(centerDistance);
@@ -19,9 +19,9 @@ namespace Renderer {
 		}
 
 		double collisionPoint = (h + sqrt(discriminant)) / a;
-		if (tmin >= collisionPoint || tmax <= collisionPoint) {
+		if (!interval.belongs(collisionPoint)) {
 			collisionPoint = (h - sqrt(discriminant)) / a;
-				if (tmin >= collisionPoint || tmax <= collisionPoint) {
+				if (!interval.belongs(collisionPoint)) {
 					return false;
 				}
 		}

@@ -1,5 +1,6 @@
 #pragma once
 #include "ray.h"
+#include "interval.h"
 
 namespace Renderer {
 	class HitProperties {
@@ -17,6 +18,6 @@ namespace Renderer {
 
 	class Hittable {
 	public:
-		virtual bool hit(double tMin, double tMax, Ray& r, HitProperties& prop) = 0;
+		virtual bool hit(Interval& i, Ray& r, HitProperties& prop) = 0;
 	};
 }

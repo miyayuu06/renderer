@@ -9,4 +9,12 @@ namespace Renderer {
 	bool Interval::belongs(double t) {
 		return (t > minimum) && (t < maximum);
 	}
+
+	double Interval::mini() {
+		return minimum;
+	}
+
+	double Interval::maxi() {
+		return maximum;
+	}
 }

@@ -10,15 +10,15 @@ namespace Renderer {
 		objCollection.push_back(h);
 	}
 
-	bool HittableList::hit(double tmin, double tmax, Ray& r, HitProperties& prop) {
-		double closestSoFar = tmax;
+	bool HittableList::hit(Interval& interval, Ray& r, HitProperties& prop) {
+		Interval auxiliaryInterval = interval;
 		HitProperties auxiliaryProp;
 		bool objectCollisionProduced = false;
 		
 		for (Hittable* object : objCollection) {
-			if (object->hit(tmin, closestSoFar, r, auxiliaryProp)) {
+			if (object->hit(auxiliaryInterval, r, auxiliaryProp)) {
 				objectCollisionProduced = true;
-				closestSoFar = auxiliaryProp.tValue;
+				auxiliaryInterval = Interval(interval.mini(), auxiliaryProp.tValue);
 				prop = auxiliaryProp;
 			}
 		}

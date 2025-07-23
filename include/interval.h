@@ -5,6 +5,8 @@ namespace Renderer {
 	public:
 		Interval(double mini, double maxi);
 		bool belongs(double t);
+		double mini();
+		double maxi();
 
 	private:
 		double minimum;
