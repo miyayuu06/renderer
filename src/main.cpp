@@ -66,8 +66,8 @@ int main()
     for (uint32_t i = 0; i < height; i++) {
         //std::cout << "Rendering row: " << i << std::endl;
         for (uint32_t j = 0; j < width; j++) {
-            const Vec pixel = pixel00 + (deltaV * i) + (deltaH * j);
-            const Vec rayDirection = pixel + (-cameraCenter);
+            Vec pixel = pixel00 + (deltaV * i) + (deltaH * j);
+            Vec rayDirection = pixel + (-cameraCenter);
             Ray ray(cameraCenter, rayDirection);
 
             Vec color = ray_color(scenery, ray);

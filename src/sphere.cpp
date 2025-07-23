@@ -9,6 +9,7 @@ namespace Renderer {
 
 	bool Sphere::hit(double tmin, double tmax, Ray& r, HitProperties& prop) {
 		Vec centerDistance = sphereCenter + (-r.origin());
+		sphereCenter.z *= -1;
 		double a = (r.dir()).dot(r.dir());
 		double h = r.dir().dot(centerDistance);
 		double c = (centerDistance.dot(centerDistance)) - (radius * radius);

@@ -4,7 +4,7 @@
 namespace Renderer {
 	class Ray {
 	public:
-		Ray(const Vec& point, const Vec& dir);
+		Ray(Vec& point, Vec& dir);
 		Vec at(double t);
 		Vec origin();
 		Vec dir();
