@@ -27,7 +27,9 @@ namespace Renderer {
 		}
 		prop.tValue = collisionPoint;
 		prop.intersectionPoint = r.at(collisionPoint);
-		prop.normal = ((prop.intersectionPoint + -sphereCenter) * (1 / radius) + Vec(1.0, 1.0, 1.0))*0.5;
+		prop.normal = (prop.intersectionPoint + -sphereCenter) * (1 / radius);
+
+		prop.correctFrontalOrientation(r);
 
 		return true;
 	}

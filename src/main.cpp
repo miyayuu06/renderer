@@ -9,16 +9,15 @@
 #include "stb_image_write.h"
 
 #include "color.h"
-#include "hittable.h"
+#include "hittable_list.h"
 #include "sphere.h"
 
 using namespace Renderer;
 
-Vec ray_color(Hittable& object, Ray& r) {
+Vec ray_color(HittableList& scenery, Ray& r) {
     HitProperties record;
-    bool hitProduced = object.hit(-1000, 1000, r, record);
-    if (hitProduced) {
-        return record.normal;
+    if (scenery.hit(0.0001, INFINITY, r, record)) {
+        return (record.normal + Vec(1.0, 1.0, 1.0)) * 0.5;
     }
 
     // Background
@@ -60,18 +59,18 @@ int main()
 
     // Scene
 
-    Sphere firstSphere(Vec(0, 0, 1.0), 0.5);
-    Sphere floor(Vec(0, -8, 1), 6.5);
+    HittableList scenery;
+    scenery.add(new Sphere(Vec(0, 0, 1), 0.5));
+    scenery.add(new Sphere(Vec(0, -100.5, -1), 100));
 
     for (uint32_t i = 0; i < height; i++) {
         //std::cout << "Rendering row: " << i << std::endl;
         for (uint32_t j = 0; j < width; j++) {
-            Vec pixel = pixel00 + (deltaV * i) + (deltaH * j);
-            Vec rayDirection = pixel + (-cameraCenter);
+            const Vec pixel = pixel00 + (deltaV * i) + (deltaH * j);
+            const Vec rayDirection = pixel + (-cameraCenter);
             Ray ray(cameraCenter, rayDirection);
 
-            Vec color = ray_color(firstSphere, ray);
-            color = ray_color(floor, ray);
+            Vec color = ray_color(scenery, ray);
 
             Color::writeColor(pixels, index, color);
         }

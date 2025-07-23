@@ -7,6 +7,12 @@ namespace Renderer {
 		Vec intersectionPoint;
 		Vec normal;
 		double tValue;
+		bool frontFace;
+
+		void correctFrontalOrientation(Ray &r) {
+			frontFace = r.dir().dot(normal) > 0.0;
+			normal = frontFace ? normal : -normal;
+		}
 	};
 
 	class Hittable {
