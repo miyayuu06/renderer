@@ -13,7 +13,7 @@ namespace Renderer {
 		return result;
 	}
 
-	void Color::writeColor(uint8_t* buffer, uint32_t& index, Vec& pixel) {
+	void Color::writeColor(uint8_t* buffer, uint32_t& index, Vec3& pixel) {
 		buffer[index++] = valueCorrector(pixel.r);
 		buffer[index++] = valueCorrector(pixel.g);
 		buffer[index++] = valueCorrector(pixel.b);

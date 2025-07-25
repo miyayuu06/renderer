@@ -6,11 +6,11 @@
 namespace Renderer {
 	class Sphere : public Hittable {
 	public:
-		Sphere(Vec center, double r);
+		Sphere(Vec3 center, double r);
 		bool hit(Interval& interval, Ray& r, HitProperties& prop);
 	
 	private:
-		Vec sphereCenter;
+		Vec3 sphereCenter;
 		double radius;
 	};
 }

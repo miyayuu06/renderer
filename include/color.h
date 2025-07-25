@@ -5,7 +5,7 @@
 namespace Renderer {
 	class Color {
 	public:
-		static void writeColor(uint8_t* buffer, uint32_t& index, Vec& pixel);
+		static void writeColor(uint8_t* buffer, uint32_t& index, Vec3& pixel);
 		static int valueCorrector(double x);
 	};
 }

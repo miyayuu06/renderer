@@ -14,22 +14,21 @@
 
 using namespace Renderer;
 
-Vec ray_color(HittableList& scenery, Ray& r) {
+Vec3 ray_color(HittableList& scenery, Ray& r) {
     HitProperties record;
     Interval rangeOfRender(0.0001, INFINITY);
     if (scenery.hit(rangeOfRender, r, record)) {
-        return (record.normal + Vec(1.0, 1.0, 1.0)) * 0.5;
+        return (record.normal + Vec3(1.0, 1.0, 1.0)) * 0.5;
     }
 
     // Background
-    Vec unitVector = r.dir().norm();
-    double a = (unitVector.y + 1.0) * 0.5;
-    return (Vec(1.0, 1.0, 1.0) * (1.0 - a)) + (Vec(0.5, 0.7, 1.0) * a);
+    const Vec3 unitVec3tor = r.dir().norm();
+    double a = (unitVec3tor.y + 1.0) * 0.5;
+    return (Vec3(1.0, 1.0, 1.0) * (1.0 - a)) + (Vec3(0.5, 0.7, 1.0) * a);
 }
 
 int main()
 {
-    //const char* file = "C:/Users/yunaf/Desktop/testimage.png";
     const double aspectRatio = 16.0 / 9.0;
     const int width = 1920;
     const int height = int(width / aspectRatio);
@@ -40,19 +39,19 @@ int main()
     double near = 1.0;
     double viewportHeight = 2.0;
     double viewportWidth = viewportHeight * (double(width) / height);
-    Vec cameraCenter(0.0, 0.0, 0.0);
+    const Vec3 cameraCenter(0.0, 0.0, 0.0);
 
-    // Viewport vectors
+    // Viewport Vec3tors
 
-    Vec viewportHorizontal(viewportWidth, 0.0, 0.0);
-    Vec viewportVertical(0.0, -viewportHeight, 0.0);
-    Vec deltaH = viewportHorizontal * (1.0 / width);
-    Vec deltaV = viewportVertical * (1.0 / height);
+    Vec3 viewportHorizontal(viewportWidth, 0.0, 0.0);
+    Vec3 viewportVertical(0.0, -viewportHeight, 0.0);
+    Vec3 deltaH = viewportHorizontal * (1.0 / width);
+    Vec3 deltaV = viewportVertical * (1.0 / height);
 
     // Upper left coordinates
 
-    Vec upperLeftCorner = cameraCenter + Vec(0.0, 0.0, near) + (viewportHorizontal * -0.5) + (viewportVertical * -0.5);
-    Vec pixel00 = upperLeftCorner + (deltaH + deltaV) * 0.5;
+    Vec3 upperLeftCorner = cameraCenter + Vec3(0.0, 0.0, near) + (viewportHorizontal * -0.5) + (viewportVertical * -0.5);
+    Vec3 pixel00 = upperLeftCorner + (deltaH + deltaV) * 0.5;
 
     uint8_t* pixels = new uint8_t[width * height * CHANNEL_NUM];
 
@@ -61,17 +60,25 @@ int main()
     // Scene
 
     HittableList scenery;
-    scenery.add(new Sphere(Vec(0, 0, 1), 0.5));
-    scenery.add(new Sphere(Vec(0, -100.5, -1), 100));
+
+    for (int i = 0; i < 7; i++) {
+        double x = ((rand() % 10000) / 10000.0 - 0.5)*10.0;
+        double y = ((rand() % 10000) / 10000.0 - 0.5) * 10.0;
+        double z = ((rand() % 10000) / 10000.0) * 10.0 + 1.0;
+        scenery.add(new Sphere(Vec3(x, y, z), (rand() % 11) / 10.0));
+    }
+
+    //scenery.add(new Sphere(Vec3(0, 0, 1), 0.5));
+    //scenery.add(new Sphere(Vec3(0, -100.5, -1), 100));
 
     for (uint32_t i = 0; i < height; i++) {
-        //std::cout << "Rendering row: " << i << std::endl;
+        std::cout << "Rendering row: " << i << std::endl;
         for (uint32_t j = 0; j < width; j++) {
-            Vec pixel = pixel00 + (deltaV * i) + (deltaH * j);
-            Vec rayDirection = pixel + (-cameraCenter);
+            const Vec3 pixel = pixel00 + (deltaV * i) + (deltaH * j);
+            const Vec3 rayDirection = pixel - cameraCenter;
             Ray ray(cameraCenter, rayDirection);
 
-            Vec color = ray_color(scenery, ray);
+            Vec3 color = ray_color(scenery, ray);
 
             Color::writeColor(pixels, index, color);
         }

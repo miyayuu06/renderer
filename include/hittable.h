@@ -5,13 +5,13 @@
 namespace Renderer {
 	class HitProperties {
 	public:
-		Vec intersectionPoint;
-		Vec normal;
+		Vec3 intersectionPoint;
+		Vec3 normal;
 		double tValue;
 		bool frontFace;
 
 		void correctFrontalOrientation(Ray &r) {
-			frontFace = r.dir().dot(normal) > 0.0;
+			frontFace = (r.dir().dot(normal) > 0.0);
 			normal = frontFace ? normal : -normal;
 		}
 	};

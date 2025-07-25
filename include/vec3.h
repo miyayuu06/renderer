@@ -1,8 +1,6 @@
 #pragma once
-
-
 namespace Renderer {
-	class Vec {
+	class Vec3 {
 	public:
 		union {
 			double _coordinates[3];
@@ -18,22 +16,25 @@ namespace Renderer {
 			};
 		};
 
-		Vec();
-		Vec(double x, double y, double z);
+		Vec3();
+		Vec3(double x, double y, double z);
 
-		double operator[](int i);
-		double length();
+		double operator[](int i) const;
+		double length() const;
 
-		Vec operator+(Vec other);
-		Vec operator-();
-		Vec operator*(double i);
-		double dot(Vec other);
-		Vec cross(Vec other);
-		Vec norm();
+		Vec3 operator+(const Vec3& other) const;
+		Vec3 operator-(const Vec3& other) const;
+
+		Vec3 operator-() const;
+		Vec3 operator*(double i) const;
+		Vec3 operator/(double i) const;
+		double dot(const Vec3& other) const;
+		Vec3 cross(const Vec3& other) const;
+		Vec3 norm() const;
 
 		void print();
 
-		void vec_Test();
+		void Vec3_Test();
 
 	private:
 	};
