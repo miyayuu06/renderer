@@ -72,7 +72,7 @@ namespace Renderer {
 		return *this / module;
 	}
 
-	void Vec3::print() {
+	/*void Vec3::print() {
 		std::cout << _coordinates[0] << " -> " << _coordinates[1] << " -> " << _coordinates[2] << std::endl;
 	}
 
@@ -86,6 +86,6 @@ namespace Renderer {
 		std::cout << "Cross x and y multiplication: "; k.print();
 		x.print(); y.print();
 		std::cout << "Dot multiplication: " << dotResult << std::endl;
-	}
+	}*/
 
 }

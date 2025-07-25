@@ -32,9 +32,8 @@ namespace Renderer {
 		Vec3 cross(const Vec3& other) const;
 		Vec3 norm() const;
 
-		void print();
-
-		void Vec3_Test();
+		/*void print();
+		void Vec3_Test();*/
 
 	private:
 	};
