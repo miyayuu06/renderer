@@ -10,7 +10,7 @@ namespace Renderer {
 		double tValue;
 		bool frontFace;
 
-		void correctFrontalOrientation(Ray &r) {
+		void correctFrontalOrientation(const Ray &r) {
 			frontFace = (r.dir().dot(normal) > 0.0);
 			normal = frontFace ? normal : -normal;
 		}
@@ -18,6 +18,6 @@ namespace Renderer {
 
 	class Hittable {
 	public:
-		virtual bool hit(Interval& i, Ray& r, HitProperties& prop) = 0;
+		virtual bool hit(const Interval& i, const Ray& r, HitProperties& prop) const = 0;
 	};
 }

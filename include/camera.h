@@ -11,7 +11,7 @@ namespace Renderer {
 		const int width = 1920;
 
 		void initialize();
-		void render(HittableList& list);
+		void render(const HittableList& list);
 	private:
 		int height;
 		int CHANNEL_NUM;
@@ -21,6 +21,6 @@ namespace Renderer {
 		Vec3 deltaV;
 
 		Ray get_ray();
-		Vec3 ray_color(HittableList& world, Ray& r);
+		Vec3 ray_color(const HittableList& world, const Ray& r);
 	};
 }

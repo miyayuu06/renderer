@@ -17,6 +17,7 @@ namespace Renderer {
 		};
 
 		Vec3();
+		Vec3(double v);
 		Vec3(double x, double y, double z);
 
 		double operator[](int i) const;

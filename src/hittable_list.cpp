@@ -10,7 +10,7 @@ namespace Renderer {
 		objCollection.push_back(h);
 	}
 
-	bool HittableList::hit(Interval& interval, Ray& r, HitProperties& prop) {
+	bool HittableList::hit(const Interval& interval, const Ray& r, HitProperties& prop) const {
 		Interval auxiliaryInterval = interval;
 		HitProperties auxiliaryProp;
 		bool objectCollisionProduced = false;

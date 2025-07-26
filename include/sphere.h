@@ -6,8 +6,8 @@
 namespace Renderer {
 	class Sphere : public Hittable {
 	public:
-		Sphere(Vec3 center, double r);
-		bool hit(Interval& interval, Ray& r, HitProperties& prop);
+		Sphere(const Vec3 center, double r);
+		bool hit(const Interval& interval, const Ray& r, HitProperties& prop) const;
 	
 	private:
 		Vec3 sphereCenter;

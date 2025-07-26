@@ -2,12 +2,12 @@
 #include <cmath>
 
 namespace Renderer {
-	Sphere::Sphere(Vec3 center, double r) {
+	Sphere::Sphere(const Vec3 center, double r) {
 		sphereCenter = center;
 		radius = r;
 	}
 
-	bool Sphere::hit(Interval& interval, Ray& r, HitProperties& prop) {
+	bool Sphere::hit(const Interval& interval, const Ray& r, HitProperties& prop) const {
 		Vec3 centerDistance = sphereCenter - r.origin();
 		double a = (r.dir()).dot(r.dir());
 		double h = r.dir().dot(centerDistance);

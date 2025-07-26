@@ -10,6 +10,12 @@ namespace Renderer {
 		_coordinates[2] = 0;
 	}
 
+	Vec3::Vec3(double x) {
+		_coordinates[0] = x;
+		_coordinates[1] = x;
+		_coordinates[2] = x;
+	}
+
 	Vec3::Vec3(double x, double y, double z) {
 		_coordinates[0] = x;
 		_coordinates[1] = y;

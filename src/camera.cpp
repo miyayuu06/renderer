@@ -9,14 +9,14 @@ namespace Renderer {
 
     }
 
-    Vec3 Camera::ray_color(HittableList& scenery, Ray& r) {
+    Vec3 Camera::ray_color(const HittableList& scenery, const Ray& r) {
 
         // Possible collision with hittables
 
         HitProperties record;
         Interval rangeOfRender(0.0001, INFINITY);
         if (scenery.hit(rangeOfRender, r, record)) {
-            return (record.normal + Vec3(1.0, 1.0, 1.0)) * 0.5;
+            return (record.normal + Vec3(1.0)) * 0.5;
         }
 
         // Background
@@ -27,7 +27,7 @@ namespace Renderer {
     }
 
     void Camera::initialize() {
-        center = Vec3(0.0, 0.0, 0.0);
+        center = Vec3(0.0);
         height = int(width / aspectRatio);
         CHANNEL_NUM = 3;
 
@@ -48,7 +48,7 @@ namespace Renderer {
 
     }
 
-    void Camera::render(HittableList& scenery) {
+    void Camera::render(const HittableList& scenery) {
         uint8_t* pixels = new uint8_t[width * height * CHANNEL_NUM];
 
         uint32_t index = 0;
