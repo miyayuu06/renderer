@@ -2,6 +2,8 @@
 #include "color.h"
 #include "stb_image_write.h"
 
+#include "renderer_utils.h"
+
 #include <iostream>
 
 namespace Renderer {
@@ -23,13 +25,14 @@ namespace Renderer {
 
         Vec3 unitVec3tor = r.dir().norm();
         double a = (unitVec3tor.y + 1.0) * 0.5;
-        return (Vec3(1.0, 1.0, 1.0) * (1.0 - a)) + (Vec3(0.5, 0.7, 1.0) * a);
+        return Vec3(1.0 - a) + Vec3(0.5, 0.7, 1.0) * a;
     }
 
     void Camera::initialize() {
         center = Vec3(0.0);
         height = int(width / aspectRatio);
         CHANNEL_NUM = 3;
+        samplePixelProportion = 1.0 / samplesPerPixel;
 
         // Initialize Viewport
         double near = 1.0;
@@ -53,16 +56,17 @@ namespace Renderer {
 
         uint32_t index = 0;
 
-        for (uint32_t i = 0; i < height; i++) {
+        for (int i = 0; i < height; i++) {
             std::cout << "Rendering row: " << i << std::endl;
-            for (uint32_t j = 0; j < width; j++) {
-                const Vec3 pixel = pixel00 + (deltaV * i) + (deltaH * j);
-                const Vec3 rayDirection = pixel - center;
-                Ray ray(center, rayDirection);
+            for (int j = 0; j < width; j++) {
+                Vec3 pixelColor(0);
+                for (int sample = 0; sample < samplesPerPixel; sample++) {
+                    Ray ray = get_ray(j, i);
 
-                Vec3 color = ray_color(scenery, ray);
-
-                Color::writeColor(pixels, index, color);
+                    pixelColor = pixelColor + ray_color(scenery, ray);
+                }
+                pixelColor = pixelColor * samplePixelProportion;
+                Color::writeColor(pixels, index, pixelColor);
             }
         }
 
@@ -72,6 +76,17 @@ namespace Renderer {
 
         delete[] pixels;
 
+    }
+
+    Ray Camera::get_ray(int width, int height) const {
+        Vec3 offset = sampleSquare();
+        Vec3 pixelPosition = pixel00 + deltaH*(offset.x + width) + deltaV* (offset.y + height);
+        Vec3 rayDir = pixelPosition - center;
+        return Ray(center, rayDir);
+    }
+
+    Vec3 Camera::sampleSquare() const {
+        return Vec3(randomRealNumber(0.0, 1.0) - 0.5, randomRealNumber(0.0, 1.0) - 0.5, 0);
     }
 
 }

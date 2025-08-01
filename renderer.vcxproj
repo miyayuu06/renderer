@@ -138,6 +138,7 @@
     <ClInclude Include="include\hittable_list.h" />
     <ClInclude Include="include\interval.h" />
     <ClInclude Include="include\ray.h" />
+    <ClInclude Include="include\renderer_utils.h" />
     <ClInclude Include="include\SDL_pixels.h" />
     <ClInclude Include="include\sphere.h" />
     <ClInclude Include="include\stb_image.h" />

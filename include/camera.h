@@ -7,20 +7,23 @@ namespace Renderer {
 	public:
 		Camera();
 		Vec3 center;
-		const double aspectRatio = 16.0 / 9.0;
-		const int width = 1920;
+		double aspectRatio;
+		int width = 1920;
+		int samplesPerPixel;
 
 		void initialize();
 		void render(const HittableList& list);
 	private:
 		int height;
 		int CHANNEL_NUM;
+		double samplePixelProportion;
 		Vec3 pixel00;
 		Vec3 upperLeftCorner;
 		Vec3 deltaH;
 		Vec3 deltaV;
 
-		Ray get_ray();
 		Vec3 ray_color(const HittableList& world, const Ray& r);
+		Ray get_ray(int i, int j) const;
+		Vec3 sampleSquare() const;
 	};
 }

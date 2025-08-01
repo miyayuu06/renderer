@@ -45,8 +45,18 @@ namespace Renderer {
 		return result;
 	}
 
+	Vec3& Vec3::operator+=(const Vec3& other) {
+		Vec3 result(_coordinates[0] + other._coordinates[0], _coordinates[1] + other._coordinates[1], _coordinates[2] + other._coordinates[2]);
+		return result;
+	}
+
 	Vec3 Vec3::operator*(double i) const {
 		Vec3 result(i*_coordinates[0], i*_coordinates[1], i*_coordinates[2]);
+		return result;
+	}
+
+	Vec3& Vec3::operator*=(double i) {
+		Vec3 result(i * _coordinates[0], i * _coordinates[1], i * _coordinates[2]);
 		return result;
 	}
 

@@ -24,10 +24,12 @@ namespace Renderer {
 		double length() const;
 
 		Vec3 operator+(const Vec3& other) const;
+		Vec3& operator+=(const Vec3& other);
 		Vec3 operator-(const Vec3& other) const;
 
 		Vec3 operator-() const;
 		Vec3 operator*(double i) const;
+		Vec3& operator*=(double i);
 		Vec3 operator/(double i) const;
 		double dot(const Vec3& other) const;
 		Vec3 cross(const Vec3& other) const;

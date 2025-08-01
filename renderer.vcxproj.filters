@@ -48,6 +48,9 @@
     <ClInclude Include="include\camera.h">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="include\renderer_utils.h">
+      <Filter>include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
