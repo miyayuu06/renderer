@@ -19,14 +19,14 @@ int main()
 
     HittableList scenery;
 
-    scenery.add(new Sphere(Vec3(0, -100.5, 1), 100));
-    scenery.add(new Sphere(Vec3(0, 0, 1), 0.5));
+    scenery.add(new Sphere(Vec3(0.0, 0.0, 1.0), 0.5));
+    scenery.add(new Sphere(Vec3(0.0, -100.5, 1.0), 100));
 
     Camera cam;
-    cam.width = 800;
-    cam.aspectRatio = 16.0 / 9.0;
-    cam.samplesPerPixel = 20;
-    cam.rayRecursionLimit = 10;
+    cam.width = 600;
+    cam.aspectRatio = 1.0;
+    cam.samplesPerPixel = 50;
+    cam.rayRecursionLimit = 50;
 
     cam.render(scenery);
 

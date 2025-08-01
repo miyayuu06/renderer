@@ -92,7 +92,7 @@ namespace Renderer {
     }
 
     Vec3 Camera::sampleSquare() const {
-        return Vec3(randomRealNumber(0.0, 1.0) - 0.5, randomRealNumber(0.0, 1.0) - 0.5, 0);
+        return Vec3(random() - 0.5, random() - 0.5, 0);
     }
 
 }

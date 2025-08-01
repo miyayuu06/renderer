@@ -84,7 +84,7 @@ namespace Renderer {
 
 	Vec3 Vec3::norm() const {
 		double module = Vec3::length();
-		if (abs(module) < 1e-4) {
+		if (abs(module) < 1e-100) {
 			assert(0);
 		}
 		return *this / module;
@@ -100,20 +100,21 @@ namespace Renderer {
 
 	Vec3 Vec3::randomUnitVector() {
 		while (true) {
-			Vec3 result = random(-1, 1);
+			Vec3 result = random(-1.0, 1.0);
 			double l = result.length();
-			if (l > 1e-100 && (l*l) <= 1.0) {
-				return result / l;
+			l *= l;
+			if (1e-100 < l && l <= 1) {
+				return result / sqrt(l);
 			}
 		}
 	}
 
-	Vec3 Vec3::RUVHemisphereCorrector(Vec3& surfaceNormal) {
+	Vec3 Vec3::RUVHemisphereCorrector(const Vec3& surfaceNormal) {
 		Vec3 RUV = randomUnitVector();
 		if (RUV.dot(surfaceNormal) < 0.0) {
-			return -RUV;
+			return RUV;
 		}
-		return RUV;
+		return -RUV;
 	}
 
 	/*void Vec3::print() {

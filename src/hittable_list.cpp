@@ -11,14 +11,15 @@ namespace Renderer {
 	}
 
 	bool HittableList::hit(const Interval& interval, const Ray& r, HitProperties& prop) const {
-		Interval auxiliaryInterval = interval;
-		HitProperties auxiliaryProp;
 		bool objectCollisionProduced = false;
+		double closestSoFar = interval.maxi();
+		HitProperties auxiliaryProp;
+		
 		
 		for (Hittable* object : objCollection) {
-			if (object->hit(auxiliaryInterval, r, auxiliaryProp)) {
+			if (object->hit(Interval(interval.mini(), closestSoFar), r, auxiliaryProp)) {
 				objectCollisionProduced = true;
-				auxiliaryInterval = Interval(interval.mini(), auxiliaryProp.tValue);
+				closestSoFar = auxiliaryProp.tValue;
 				prop = auxiliaryProp;
 			}
 		}

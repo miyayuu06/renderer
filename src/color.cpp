@@ -3,7 +3,7 @@
 
 namespace Renderer {
 	int Color::valueCorrector(double x) {
-		int result = int(x * 255.999);
+		int result = int(x * 255);
 		if (result < 0) {
 			return 0;
 		}

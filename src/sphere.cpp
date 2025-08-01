@@ -18,9 +18,9 @@ namespace Renderer {
 			return false;
 		}
 
-		double collisionPoint = (h + sqrt(discriminant)) / a;
+		double collisionPoint = (h - sqrt(discriminant)) / a;
 		if (!interval.belongs(collisionPoint)) {
-			collisionPoint = (h - sqrt(discriminant)) / a;
+			collisionPoint = (h + sqrt(discriminant)) / a;
 				if (!interval.belongs(collisionPoint)) {
 					return false;
 				}
