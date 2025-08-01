@@ -11,18 +11,22 @@ namespace Renderer {
 
     }
 
-    Vec3 Camera::ray_color(const HittableList& scenery, const Ray& r) {
+    Vec3 Camera::ray_color(const HittableList& scenery, const Ray& r, int depth) {
+
+        if (depth <= 0) {
+            return Vec3(0.0);
+        }
 
         // Possible collision with hittables
-
         HitProperties record;
-        Interval rangeOfRender(0.0001, INFINITY);
+        Interval rangeOfRender(0.001, INFINITY);
+
         if (scenery.hit(rangeOfRender, r, record)) {
-            return (record.normal + Vec3(1.0)) * 0.5;
+            Vec3 direction = Vec3::RUVHemisphereCorrector(record.normal);
+            return ray_color(scenery, Ray(record.intersectionPoint, direction), depth - 1) * 0.5;
         }
 
         // Background
-
         Vec3 unitVec3tor = r.dir().norm();
         double a = (unitVec3tor.y + 1.0) * 0.5;
         return Vec3(1.0 - a) + Vec3(0.5, 0.7, 1.0) * a;
@@ -52,6 +56,8 @@ namespace Renderer {
     }
 
     void Camera::render(const HittableList& scenery) {
+        initialize();
+
         uint8_t* pixels = new uint8_t[width * height * CHANNEL_NUM];
 
         uint32_t index = 0;
@@ -63,7 +69,7 @@ namespace Renderer {
                 for (int sample = 0; sample < samplesPerPixel; sample++) {
                     Ray ray = get_ray(j, i);
 
-                    pixelColor = pixelColor + ray_color(scenery, ray);
+                    pixelColor = pixelColor + ray_color(scenery, ray, rayRecursionLimit);
                 }
                 pixelColor = pixelColor * samplePixelProportion;
                 Color::writeColor(pixels, index, pixelColor);

@@ -1,4 +1,6 @@
 #include "vec3.h"
+#include "renderer_utils.h"
+
 #include <cmath>
 #include <iostream>
 #include <cassert>
@@ -86,6 +88,32 @@ namespace Renderer {
 			assert(0);
 		}
 		return *this / module;
+	}
+
+	Vec3 Vec3::random(double min, double max) {
+		return Vec3(randomRealNumber(min, max), randomRealNumber(min, max), randomRealNumber(min, max));
+	}
+
+	Vec3 Vec3::random() {
+		return Vec3(randomRealNumber(0.0, 1.0), randomRealNumber(0.0, 1.0), randomRealNumber(0.0, 1.0));
+	}
+
+	Vec3 Vec3::randomUnitVector() {
+		while (true) {
+			Vec3 result = random(-1, 1);
+			double l = result.length();
+			if (l > 1e-100 && (l*l) <= 1.0) {
+				return result / l;
+			}
+		}
+	}
+
+	Vec3 Vec3::RUVHemisphereCorrector(Vec3& surfaceNormal) {
+		Vec3 RUV = randomUnitVector();
+		if (RUV.dot(surfaceNormal) < 0.0) {
+			return -RUV;
+		}
+		return RUV;
 	}
 
 	/*void Vec3::print() {

@@ -35,6 +35,11 @@ namespace Renderer {
 		Vec3 cross(const Vec3& other) const;
 		Vec3 norm() const;
 
+		static Vec3 random(double min, double max);
+		static Vec3 random();
+		static Vec3 randomUnitVector();
+		static Vec3 RUVHemisphereCorrector(Vec3& surfaceNormal);
+
 		/*void print();
 		void Vec3_Test();*/
 

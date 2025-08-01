@@ -8,8 +8,9 @@ namespace Renderer {
 		Camera();
 		Vec3 center;
 		double aspectRatio;
-		int width = 1920;
+		int width;
 		int samplesPerPixel;
+		int rayRecursionLimit;
 
 		void initialize();
 		void render(const HittableList& list);
@@ -22,7 +23,7 @@ namespace Renderer {
 		Vec3 deltaH;
 		Vec3 deltaV;
 
-		Vec3 ray_color(const HittableList& world, const Ray& r);
+		Vec3 ray_color(const HittableList& world, const Ray& r, int depth);
 		Ray get_ray(int i, int j) const;
 		Vec3 sampleSquare() const;
 	};

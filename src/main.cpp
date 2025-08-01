@@ -19,19 +19,15 @@ int main()
 
     HittableList scenery;
 
-    for (int i = 0; i < 4; i++) {
-        double x = ((rand() % 10000) / 10000.0 - 0.5) * 10.0;
-        double y = ((rand() % 10000) / 10000.0 - 0.5) * 10.0;
-        double z = ((rand() % 10000) / 10000.0) * 10.0 + 1.0;
-        scenery.add(new Sphere(Vec3(x, y, z), (rand() % 11) / 10.0));
-    }
+    scenery.add(new Sphere(Vec3(0, -100.5, 1), 100));
+    scenery.add(new Sphere(Vec3(0, 0, 1), 0.5));
 
     Camera cam;
-    cam.width = 1920;
+    cam.width = 800;
     cam.aspectRatio = 16.0 / 9.0;
-    cam.samplesPerPixel = 50;
+    cam.samplesPerPixel = 20;
+    cam.rayRecursionLimit = 10;
 
-    cam.initialize();
     cam.render(scenery);
 
 }
