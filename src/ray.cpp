@@ -1,6 +1,8 @@
 #include "ray.h"
 
 namespace Renderer {
+	Ray::Ray() {}
+
 	Ray::Ray(const Vec3& point, const Vec3& dir) : _origin(point), _direction(dir) {
 	}
 

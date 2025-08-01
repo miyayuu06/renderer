@@ -3,6 +3,7 @@
 #include "stb_image_write.h"
 
 #include "renderer_utils.h"
+#include "material.h"
 
 #include <iostream>
 
@@ -22,8 +23,12 @@ namespace Renderer {
         Interval rangeOfRender(0.001, INFINITY);
 
         if (scenery.hit(rangeOfRender, r, record)) {
-            Vec3 direction = Vec3::RUVHemisphereCorrector(record.normal);
-            return ray_color(scenery, Ray(record.intersectionPoint, direction), depth - 1) * 0.5;
+            Ray scattered;
+            Vec3 atenuation;
+            if (record.mat->scatter(r, record, atenuation, scattered)) {
+                return Vec3::Vec3Mult(atenuation, ray_color(scenery, scattered, depth - 1));
+            }
+            return Vec3(0.0);
         }
 
         // Background

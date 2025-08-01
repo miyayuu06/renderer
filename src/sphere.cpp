@@ -2,9 +2,10 @@
 #include <cmath>
 
 namespace Renderer {
-	Sphere::Sphere(const Vec3 center, double r) {
+	Sphere::Sphere(const Vec3 center, double r, Material* m) {
 		sphereCenter = center;
 		radius = r;
+		material = m;
 	}
 
 	bool Sphere::hit(const Interval& interval, const Ray& r, HitProperties& prop) const {
@@ -28,6 +29,7 @@ namespace Renderer {
 		prop.tValue = collisionPoint;
 		prop.intersectionPoint = r.at(collisionPoint);
 		prop.normal = (prop.intersectionPoint - sphereCenter) / radius;
+		prop.mat = material;
 
 		prop.correctFrontalOrientation(r);
 

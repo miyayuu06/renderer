@@ -29,6 +29,7 @@ namespace Renderer {
 
 		Vec3 operator-() const;
 		Vec3 operator*(double i) const;
+		static Vec3 Vec3Mult(const Vec3& u, const Vec3& v);
 		Vec3& operator*=(double i);
 		Vec3 operator/(double i) const;
 		double dot(const Vec3& other) const;
@@ -40,8 +41,8 @@ namespace Renderer {
 		static Vec3 randomUnitVector();
 		static Vec3 RUVHemisphereCorrector(const Vec3& surfaceNormal);
 
-		/*void print();
-		void Vec3_Test();*/
+		bool nearZero();
+		static Vec3 reflect(const Vec3& v, const Vec3& n);
 
 	private:
 	};

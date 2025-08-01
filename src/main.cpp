@@ -11,6 +11,8 @@
 #include "renderer_utils.h"
 #include "sphere.h"
 #include "camera.h"
+#include "material.h"
+
 
 using namespace Renderer;
 
@@ -19,12 +21,19 @@ int main()
 
     HittableList scenery;
 
-    scenery.add(new Sphere(Vec3(0.0, 0.0, 1.0), 0.5));
-    scenery.add(new Sphere(Vec3(0.0, -100.5, 1.0), 100));
+    Lambertian* ground = new Lambertian(Vec3(0.8, 0.8, 0));
+    Lambertian* middle = new Lambertian(Vec3(0.8, 0.2, 0));
+    Metal* metal1 = new Metal(Vec3(0.8, 0.6, 0.2));
+    Metal* metal2 = new Metal(Vec3(0.8, 0.8, 0.8));
+
+    scenery.add(new Sphere(Vec3(0.0, -100.5, 1.0), 100.0, ground));
+    scenery.add(new Sphere(Vec3(0.0, 0.0, 1.2), 0.5, middle));
+    scenery.add(new Sphere(Vec3(-1.0, 0.0, 1.0), 0.5, metal2));
+    scenery.add(new Sphere(Vec3(1.0, 0.0, 1.0), 0.5, metal1));
 
     Camera cam;
-    cam.width = 600;
-    cam.aspectRatio = 1.0;
+    cam.width = 1200;
+    cam.aspectRatio = 16.0 / 9.0;
     cam.samplesPerPixel = 50;
     cam.rayRecursionLimit = 50;
 

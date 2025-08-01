@@ -57,6 +57,10 @@ namespace Renderer {
 		return result;
 	}
 
+	Vec3 Vec3::Vec3Mult(const Vec3& u, const Vec3& v) {
+		return Vec3(u.x * v.x, u.y * v.y, u.z * v.z);
+	}
+
 	Vec3& Vec3::operator*=(double i) {
 		Vec3 result(i * _coordinates[0], i * _coordinates[1], i * _coordinates[2]);
 		return result;
@@ -111,26 +115,18 @@ namespace Renderer {
 
 	Vec3 Vec3::RUVHemisphereCorrector(const Vec3& surfaceNormal) {
 		Vec3 RUV = randomUnitVector();
-		if (RUV.dot(surfaceNormal) < 0.0) {
+		if (RUV.dot(surfaceNormal) > 0.0) {
 			return RUV;
 		}
 		return -RUV;
 	}
 
-	/*void Vec3::print() {
-		std::cout << _coordinates[0] << " -> " << _coordinates[1] << " -> " << _coordinates[2] << std::endl;
+	bool Vec3::nearZero() {
+		return (std::abs(_coordinates[0]) <= 1e-8) && (std::abs(_coordinates[1]) <= 1e-8) && (std::abs(_coordinates[2]) <= 1e-8);
 	}
 
-	void Vec3::Vec3_Test() {
-		Vec3 y(4, 5, 6), x(1, 2, 3);
-		x.print(); y.print();
-		Vec3 i = x + y, j = x * 3.0, k = x.cross(y);
-		double dotResult = x.dot(y);
-		std::cout << "Sum: "; i.print();
-		std::cout << "Multiplication: "; j.print();
-		std::cout << "Cross x and y multiplication: "; k.print();
-		x.print(); y.print();
-		std::cout << "Dot multiplication: " << dotResult << std::endl;
-	}*/
+	Vec3 Vec3::reflect(const Vec3& v, const Vec3& n) {
+		return v - n * 2 * (v.dot(n));
+	}
 
 }
