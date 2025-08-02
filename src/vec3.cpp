@@ -29,7 +29,11 @@ namespace Renderer {
 	};
 
 	double Vec3::length() const {
-		return sqrt(_coordinates[0]* _coordinates[0] + _coordinates[1] * _coordinates[1] + _coordinates[2] * _coordinates[2]);
+		return sqrt(lengthSquared());
+	}
+
+	double Vec3::lengthSquared() const {
+		return _coordinates[0] * _coordinates[0] + _coordinates[1] * _coordinates[1] + _coordinates[2] * _coordinates[2];
 	}
 
 	Vec3 Vec3::operator+(const Vec3& other) const {
@@ -105,8 +109,7 @@ namespace Renderer {
 	Vec3 Vec3::randomUnitVector() {
 		while (true) {
 			Vec3 result = random(-1.0, 1.0);
-			double l = result.length();
-			l *= l;
+			double l = result.lengthSquared();
 			if (1e-100 < l && l <= 1) {
 				return result / sqrt(l);
 			}
@@ -127,6 +130,12 @@ namespace Renderer {
 
 	Vec3 Vec3::reflect(const Vec3& v, const Vec3& n) {
 		return v - n * 2 * (v.dot(n));
+	}
+
+	Vec3 Vec3::refraction(const Vec3& r, const Vec3& n, double etaProportion, double cosine) {
+		Vec3 perp = (r + (n * cosine)) * etaProportion;
+		Vec3 parallel = n * -(sqrt(abs(1.0 - perp.lengthSquared())));
+		return perp + parallel;
 	}
 
 }

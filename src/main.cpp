@@ -23,13 +23,13 @@ int main()
 
     Lambertian* ground = new Lambertian(Vec3(0.8, 0.8, 0));
     Lambertian* middle = new Lambertian(Vec3(0.8, 0.2, 0));
-    Metal* metal1 = new Metal(Vec3(0.8, 0.6, 0.2), 0.5);
+    Dielectric* metal1 = new Dielectric(1.5);
     Metal* metal2 = new Metal(Vec3(0.8, 0.8, 0.8), 0.0);
 
     scenery.add(new Sphere(Vec3(0.0, -100.5, 1.0), 100.0, ground));
     scenery.add(new Sphere(Vec3(0.0, 0.0, 1.2), 0.5, middle));
-    scenery.add(new Sphere(Vec3(-1.0, 0.0, 1.0), 0.5, metal2));
-    scenery.add(new Sphere(Vec3(1.0, 0.0, 1.0), 0.5, metal1));
+    scenery.add(new Sphere(Vec3(-1.0, 0.0, 1.0), 0.5, metal1));
+    scenery.add(new Sphere(Vec3(1.0, 0.0, 1.0), 0.5, metal2));
 
     Camera cam;
     cam.width = 800;
