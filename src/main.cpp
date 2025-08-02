@@ -23,7 +23,7 @@ int main()
 
     Lambertian* ground = new Lambertian(Vec3(0.8, 0.8, 0));
     Lambertian* middle = new Lambertian(Vec3(0.8, 0.2, 0));
-    Dielectric* metal1 = new Dielectric(1.5);
+    Dielectric* metal1 = new Dielectric(1.00 / 1.33);
     Metal* metal2 = new Metal(Vec3(0.8, 0.8, 0.8), 0.0);
 
     scenery.add(new Sphere(Vec3(0.0, -100.5, 1.0), 100.0, ground));

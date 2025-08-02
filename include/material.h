@@ -59,11 +59,11 @@ namespace Renderer {
 
 			Vec3 scatteredRayDirection;
 
-			if (eta * sinTheta <= 1.0) {
-				scatteredRayDirection = Vec3::refraction(normalisedRayDir, prop.normal, eta, cosTheta);
+			if (eta * sinTheta > 1.0 || reflectance(cosTheta, refractionIndex)) {
+				scatteredRayDirection = Vec3::reflect(r.dir(), prop.normal);
 			}
 			else {
-				scatteredRayDirection = Vec3::reflect(r.dir(), prop.normal);
+				scatteredRayDirection = Vec3::refraction(normalisedRayDir, prop.normal, eta, cosTheta);
 			}
 			scatteredRay = Ray(prop.intersectionPoint, scatteredRayDirection);
 			return true;
@@ -71,5 +71,11 @@ namespace Renderer {
 
 	private:
 		double refractionIndex;
+
+		static double reflectance(double cosT, double ri) {
+			double r0 = (1 - ri) / (1 + ri);
+			r0 *= r0;
+			return r0 + (1 - r0) * pow(1 - cosT, 5);
+		}
 	};
 }
