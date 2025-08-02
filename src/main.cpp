@@ -23,8 +23,8 @@ int main()
 
     Lambertian* ground = new Lambertian(Vec3(0.8, 0.8, 0));
     Lambertian* middle = new Lambertian(Vec3(0.8, 0.2, 0));
-    Metal* metal1 = new Metal(Vec3(0.8, 0.6, 0.2));
-    Metal* metal2 = new Metal(Vec3(0.8, 0.8, 0.8));
+    Metal* metal1 = new Metal(Vec3(0.8, 0.6, 0.2), 0.5);
+    Metal* metal2 = new Metal(Vec3(0.8, 0.8, 0.8), 0.0);
 
     scenery.add(new Sphere(Vec3(0.0, -100.5, 1.0), 100.0, ground));
     scenery.add(new Sphere(Vec3(0.0, 0.0, 1.2), 0.5, middle));
@@ -32,10 +32,10 @@ int main()
     scenery.add(new Sphere(Vec3(1.0, 0.0, 1.0), 0.5, metal1));
 
     Camera cam;
-    cam.width = 1200;
+    cam.width = 800;
     cam.aspectRatio = 16.0 / 9.0;
-    cam.samplesPerPixel = 50;
-    cam.rayRecursionLimit = 50;
+    cam.samplesPerPixel = 100;
+    cam.rayRecursionLimit = 20;
 
     cam.render(scenery);
 

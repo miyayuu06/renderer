@@ -30,14 +30,18 @@ namespace Renderer {
 
 	class Metal : public Material {
 	public:
-		Metal(const Vec3& alb) : albedo(alb) {}
+		Metal(const Vec3& alb, double fuzz) : albedo(alb) {
+			fuzziness = fuzz < 1 ? fuzz : 1;
+		}
 		inline bool scatter(const Ray& r, const HitProperties& prop, Vec3& colorAtenuation, Ray& scatteredRay) {
 			Vec3 reflectedRay = Vec3::reflect(r.dir(), prop.normal);
+			reflectedRay = reflectedRay.norm() + Vec3::randomUnitVector() * fuzziness;
 			scatteredRay = Ray(prop.intersectionPoint, reflectedRay);
 			colorAtenuation = albedo;
 			return true;
 		}
 	private:
 		Vec3 albedo;
+		double fuzziness;
 	};
 }
