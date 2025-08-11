@@ -11,6 +11,11 @@ namespace Renderer {
 		int width;
 		int samplesPerPixel;
 		int rayRecursionLimit;
+		double verticalViewAngle;
+		
+		Vec3 lookfrom;
+		Vec3 lookat;
+		Vec3 up;
 
 		void initialize();
 		void render(const HittableList& list);
@@ -22,6 +27,10 @@ namespace Renderer {
 		Vec3 upperLeftCorner;
 		Vec3 deltaH;
 		Vec3 deltaV;
+		
+		Vec3 u;
+		Vec3 v;
+		Vec3 w;
 
 		Vec3 ray_color(const HittableList& world, const Ray& r, int depth);
 		Ray get_ray(int i, int j) const;

@@ -12,3 +12,8 @@ inline double randomRealNumber(double minimum, double maximum) {
 	double difference = maximum - minimum;
 	return minimum + difference * random();
 }
+
+inline double degreesToRadians(double deg) {
+	const double PI = 3.1415926535897932384626433832795028841971;
+	return (deg / 360) * 2 * PI;
+}

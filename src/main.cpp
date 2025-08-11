@@ -21,24 +21,29 @@ int main()
 
     HittableList scenery;
 
-    Lambertian* ground = new Lambertian(Vec3(0.8, 0.8, 0));
-    Lambertian* middle = new Lambertian(Vec3(0.1, 0.2, 0.5));
+    Lambertian* ground = new Lambertian(Vec3(0.8, 0.8, 0.0));
+    Lambertian* center = new Lambertian(Vec3(0.1, 0.2, 0.5));
     Dielectric* left = new Dielectric(1.5);
     Dielectric* bubble = new Dielectric(1.0 / 1.5);
-    Metal* right = new Metal(Vec3(0.8, 0.6, 0.2), 0.0);
+    Metal* right = new Metal(Vec3(0.8, 0.6, 0.2), 1.0);
 
-    scenery.add(new Sphere(Vec3(0.0, -100.5, 1.0), 100.0, ground));
-    scenery.add(new Sphere(Vec3(0.0, 0.0, 1.2), 0.5, middle));
+    scenery.add(new Sphere(Vec3(0.0, -100.5, 1), 100.0, ground));
+    scenery.add(new Sphere(Vec3(0, 0, 1.2), 0.5, center));
     scenery.add(new Sphere(Vec3(-1.0, 0.0, 1.0), 0.5, left));
     scenery.add(new Sphere(Vec3(-1.0, 0.0, 1.0), 0.4, bubble));
-    //scenery.add(new Sphere(Vec3(-1.0, 0.0, 3.0), 0.3, right));
     scenery.add(new Sphere(Vec3(1.0, 0.0, 1.0), 0.5, right));
 
     Camera cam;
     cam.width = 800;
-    cam.aspectRatio = 24.0 / 9.0;
+    cam.aspectRatio = 16.0 / 9.0;
     cam.samplesPerPixel = 100;
     cam.rayRecursionLimit = 50;
+
+    cam.verticalViewAngle = 20;
+
+    cam.lookfrom = Vec3(-2, 2, -1);
+    cam.lookat = Vec3(0, 0, 1);
+    cam.up = Vec3(0, 1, 0);
 
     cam.render(scenery);
 

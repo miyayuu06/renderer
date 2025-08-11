@@ -38,24 +38,34 @@ namespace Renderer {
     }
 
     void Camera::initialize() {
-        center = Vec3(0.0);
+        center = lookfrom;
+
         height = int(width / aspectRatio);
         CHANNEL_NUM = 3;
         samplePixelProportion = 1.0 / samplesPerPixel;
 
         // Initialize Viewport
-        double near = 1.0;
-        double viewportHeight = 2.0;
+        double theta = degreesToRadians(verticalViewAngle);
+        double h = std::tan(theta / 2);
+        double near = (lookfrom - lookat).length();
+        double viewportHeight = 2 * h * near;
         double viewportWidth = viewportHeight * (double(width) / height);
 
-        Vec3 viewportHorizontal(viewportWidth, 0.0, 0.0);
-        Vec3 viewportVertical(0.0, -viewportHeight, 0.0);
-        deltaH = viewportHorizontal * (1.0 / width);
-        deltaV = viewportVertical * (1.0 / height);
+        // Initialize camera vector parameters
+        w = (lookfrom - lookat).norm();
+        u = (up.cross(w)).norm();
+        v = w.cross(u);
+
+        // Viewport vectors
+        Vec3 viewportHorizontal = -u * viewportWidth;
+        Vec3 viewportVertical = -v * viewportHeight;
+
+        deltaH = viewportHorizontal * 1.0 / width;
+        deltaV = viewportVertical * 1.0 / height;
 
         // Upper left coordinates
 
-        upperLeftCorner = center + Vec3(0.0, 0.0, near) + (viewportHorizontal * -0.5) + (viewportVertical * -0.5);
+        upperLeftCorner = center - (w * near) - (viewportHorizontal + viewportVertical) / 2;
         pixel00 = upperLeftCorner + (deltaH + deltaV) * 0.5;
 
     }
