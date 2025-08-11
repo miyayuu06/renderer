@@ -44,7 +44,7 @@ namespace Renderer {
 
 		bool nearZero();
 		static Vec3 reflect(const Vec3& v, const Vec3& n);
-		static Vec3 refraction(const Vec3& r, const Vec3& n, double etaProportion, double cosTheta);
+		static Vec3 refraction(const Vec3& r, const Vec3& n, double etaProportion);
 
 	private:
 	};

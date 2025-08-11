@@ -35,7 +35,7 @@ namespace Renderer {
 		}
 		inline bool scatter(const Ray& r, const HitProperties& prop, Vec3& colorAtenuation, Ray& scatteredRay) {
 			Vec3 reflectedRay = Vec3::reflect(r.dir(), prop.normal);
-			reflectedRay = reflectedRay.norm() + Vec3::randomUnitVector() * fuzziness;
+			reflectedRay = (reflectedRay + Vec3::randomUnitVector() * fuzziness).norm();
 			scatteredRay = Ray(prop.intersectionPoint, reflectedRay);
 			colorAtenuation = albedo;
 			return true;
@@ -59,11 +59,11 @@ namespace Renderer {
 
 			Vec3 scatteredRayDirection;
 
-			if (eta * sinTheta > 1.0 || reflectance(cosTheta, refractionIndex)) {
-				scatteredRayDirection = Vec3::reflect(r.dir(), prop.normal);
+			if (eta * sinTheta > 1.0 || reflectance(cosTheta, eta) > random()) {
+				scatteredRayDirection = Vec3::reflect(normalisedRayDir, prop.normal);
 			}
 			else {
-				scatteredRayDirection = Vec3::refraction(normalisedRayDir, prop.normal, eta, cosTheta);
+				scatteredRayDirection = Vec3::refraction(normalisedRayDir, prop.normal, eta);
 			}
 			scatteredRay = Ray(prop.intersectionPoint, scatteredRayDirection);
 			return true;
@@ -74,7 +74,7 @@ namespace Renderer {
 
 		static double reflectance(double cosT, double ri) {
 			double r0 = (1 - ri) / (1 + ri);
-			r0 *= r0;
+			r0 = r0 * r0;
 			return r0 + (1 - r0) * pow(1 - cosT, 5);
 		}
 	};

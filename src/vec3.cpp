@@ -52,8 +52,10 @@ namespace Renderer {
 	}
 
 	Vec3& Vec3::operator+=(const Vec3& other) {
-		Vec3 result(_coordinates[0] + other._coordinates[0], _coordinates[1] + other._coordinates[1], _coordinates[2] + other._coordinates[2]);
-		return result;
+		_coordinates[0] += other._coordinates[0];
+		_coordinates[1] += other._coordinates[1]; 
+		_coordinates[2] += other._coordinates[2];
+		return *this;
 	}
 
 	Vec3 Vec3::operator*(double i) const {
@@ -66,8 +68,10 @@ namespace Renderer {
 	}
 
 	Vec3& Vec3::operator*=(double i) {
-		Vec3 result(i * _coordinates[0], i * _coordinates[1], i * _coordinates[2]);
-		return result;
+		_coordinates[0] *= i;
+		_coordinates[1] *= i;
+		_coordinates[2] *= i;
+		return *this;
 	}
 
 	Vec3 Vec3::operator/(double i) const {
@@ -132,9 +136,11 @@ namespace Renderer {
 		return v - n * 2 * (v.dot(n));
 	}
 
-	Vec3 Vec3::refraction(const Vec3& r, const Vec3& n, double etaProportion, double cosine) {
+	Vec3 Vec3::refraction(const Vec3& r, const Vec3& n, double etaProportion) {
+		double cosine = fmin((-r).dot(n), 1.0);
 		Vec3 perp = (r + (n * cosine)) * etaProportion;
-		Vec3 parallel = n * -(sqrt(abs(1.0 - perp.lengthSquared())));
+		double k = 1.0 - perp.lengthSquared();
+		Vec3 parallel = (k < 0) ? Vec3(0.0) : n * -(sqrt(k));
 		return perp + parallel;
 	}
 
