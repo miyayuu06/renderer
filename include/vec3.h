@@ -40,6 +40,7 @@ namespace Renderer {
 		static Vec3 random(double min, double max);
 		static Vec3 random();
 		static Vec3 randomUnitVector();
+		static Vec3 randomUnitVectorInDisk();
 		static Vec3 RUVHemisphereCorrector(const Vec3& surfaceNormal);
 
 		bool nearZero();

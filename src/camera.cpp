@@ -47,8 +47,8 @@ namespace Renderer {
         // Initialize Viewport
         double theta = degreesToRadians(verticalViewAngle);
         double h = std::tan(theta / 2);
-        double near = (lookfrom - lookat).length();
-        double viewportHeight = 2 * h * near;
+        //double near = (lookfrom - lookat).length();
+        double viewportHeight = 2 * h * focusDistance;
         double viewportWidth = viewportHeight * (double(width) / height);
 
         // Initialize camera vector parameters
@@ -65,8 +65,12 @@ namespace Renderer {
 
         // Upper left coordinates
 
-        upperLeftCorner = center - (w * near) - (viewportHorizontal + viewportVertical) / 2;
+        upperLeftCorner = center - (w * focusDistance) - (viewportHorizontal + viewportVertical) / 2;
         pixel00 = upperLeftCorner + (deltaH + deltaV) * 0.5;
+
+        double focusRadius = focusDistance * std::tan(degreesToRadians(defocusAngle/2));
+        focusDiskH = u * focusRadius;
+        focusDiskV = v * focusRadius;
 
     }
 
@@ -102,12 +106,18 @@ namespace Renderer {
     Ray Camera::get_ray(int width, int height) const {
         Vec3 offset = sampleSquare();
         Vec3 pixelPosition = pixel00 + deltaH*(offset.x + width) + deltaV* (offset.y + height);
-        Vec3 rayDir = pixelPosition - center;
-        return Ray(center, rayDir);
+        Vec3 rayOrigin = (defocusAngle <= 0) ? center : diskSample();
+        Vec3 rayDir = pixelPosition - rayOrigin;
+        return Ray(rayOrigin, rayDir);
     }
 
     Vec3 Camera::sampleSquare() const {
         return Vec3(random() - 0.5, random() - 0.5, 0);
+    }
+
+    Vec3 Camera::diskSample() const {
+        Vec3 p = Vec3::randomUnitVectorInDisk();
+        return center + focusDiskH * p[0] + focusDiskV * p[1];
     }
 
 }

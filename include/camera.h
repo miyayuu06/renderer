@@ -12,6 +12,9 @@ namespace Renderer {
 		int samplesPerPixel;
 		int rayRecursionLimit;
 		double verticalViewAngle;
+
+		double defocusAngle;
+		double focusDistance;
 		
 		Vec3 lookfrom;
 		Vec3 lookat;
@@ -27,6 +30,9 @@ namespace Renderer {
 		Vec3 upperLeftCorner;
 		Vec3 deltaH;
 		Vec3 deltaV;
+
+		Vec3 focusDiskH;
+		Vec3 focusDiskV;
 		
 		Vec3 u;
 		Vec3 v;
@@ -35,5 +41,6 @@ namespace Renderer {
 		Vec3 ray_color(const HittableList& world, const Ray& r, int depth);
 		Ray get_ray(int i, int j) const;
 		Vec3 sampleSquare() const;
+		Vec3 diskSample() const;
 	};
 }

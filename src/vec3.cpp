@@ -120,6 +120,15 @@ namespace Renderer {
 		}
 	}
 
+	Vec3 Vec3::randomUnitVectorInDisk() {
+		while (true) {
+			Vec3 p(randomRealNumber(-1, 1), randomRealNumber(-1, 1), 0.0);
+			if (p.lengthSquared() < 1) {
+				return p;
+			}
+		}
+	}
+
 	Vec3 Vec3::RUVHemisphereCorrector(const Vec3& surfaceNormal) {
 		Vec3 RUV = randomUnitVector();
 		if (RUV.dot(surfaceNormal) > 0.0) {

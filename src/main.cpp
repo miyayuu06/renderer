@@ -25,7 +25,7 @@ int main()
     Lambertian* center = new Lambertian(Vec3(0.1, 0.2, 0.5));
     Dielectric* left = new Dielectric(1.5);
     Dielectric* bubble = new Dielectric(1.0 / 1.5);
-    Metal* right = new Metal(Vec3(0.8, 0.6, 0.2), 1.0);
+    Metal* right = new Metal(Vec3(0.8, 0.6, 0.2), 0.5);
 
     scenery.add(new Sphere(Vec3(0.0, -100.5, 1), 100.0, ground));
     scenery.add(new Sphere(Vec3(0, 0, 1.2), 0.5, center));
@@ -44,6 +44,9 @@ int main()
     cam.lookfrom = Vec3(-2, 2, -1);
     cam.lookat = Vec3(0, 0, 1);
     cam.up = Vec3(0, 1, 0);
+
+    cam.defocusAngle = 10.0;
+    cam.focusDistance = 3.4;
 
     cam.render(scenery);
 
