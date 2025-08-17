@@ -21,17 +21,48 @@ int main()
 
     HittableList scenery;
 
-    Lambertian* ground = new Lambertian(Vec3(0.8, 0.8, 0.0));
-    Lambertian* center = new Lambertian(Vec3(0.1, 0.2, 0.5));
-    Dielectric* left = new Dielectric(1.5);
-    Dielectric* bubble = new Dielectric(1.0 / 1.5);
-    Metal* right = new Metal(Vec3(0.8, 0.6, 0.2), 0.5);
+    Lambertian* ground = new Lambertian(Vec3(0.5, 0.5, 0.5));
+    scenery.add(new Sphere(Vec3(0, -1000, 0), 1000, ground));
 
-    scenery.add(new Sphere(Vec3(0.0, -100.5, 1), 100.0, ground));
-    scenery.add(new Sphere(Vec3(0, 0, 1.2), 0.5, center));
-    scenery.add(new Sphere(Vec3(-1.0, 0.0, 1.0), 0.5, left));
-    scenery.add(new Sphere(Vec3(-1.0, 0.0, 1.0), 0.4, bubble));
-    scenery.add(new Sphere(Vec3(1.0, 0.0, 1.0), 0.5, right));
+    for (int a = -11; a < 11; a++) {
+        for (int b = -11; b < 11; b++) {
+            auto choose_mat = random();
+            Vec3 center(a + 0.9 * random(), 0.2, b + 0.9 * random());
+
+            if ((center - Vec3(4, 0.2, 0)).length() > 0.9) {
+                Material* sphereMaterial;
+
+                if (choose_mat < 0.8) {
+                    // diffuse
+                    auto albedo = Vec3::random();
+                    sphereMaterial = new Lambertian(albedo);
+                    Vec3 c2 = center + Vec3(0, randomRealNumber(0, 0.5), 0);
+                    scenery.add(new Sphere(center, c2, 0.2, sphereMaterial));
+                }
+                else if (choose_mat < 0.95) {
+                    // metal
+                    auto albedo = Vec3::random(0.5, 1);
+                    auto fuzz = randomRealNumber(0, 0.5);
+                    sphereMaterial = new Metal(albedo, fuzz);
+                    scenery.add(new Sphere(center, 0.2, sphereMaterial));
+                }
+                else {
+                    // glass
+                    sphereMaterial = new Dielectric(1.5);
+                    scenery.add(new Sphere(center, 0.2, sphereMaterial));
+                }
+            }
+        }
+    }
+
+    auto material1 = new Dielectric(1.5);
+    scenery.add(new Sphere(Vec3(0, 1, 0), 1.0, material1));
+
+    auto material2 = new Lambertian(Vec3(0.4, 0.2, 0.1));
+    scenery.add(new Sphere(Vec3(-4, 1, 0), 1.0, material2));
+
+    auto material3 = new Metal(Vec3(0.7, 0.6, 0.5), 0.0);
+    scenery.add(new Sphere(Vec3(4, 1, 0), 1.0, material3));
 
     Camera cam;
     cam.width = 800;
@@ -41,12 +72,12 @@ int main()
 
     cam.verticalViewAngle = 20;
 
-    cam.lookfrom = Vec3(-2, 2, -1);
-    cam.lookat = Vec3(0, 0, 1);
+    cam.lookfrom = Vec3(13, 2, -3);
+    cam.lookat = Vec3(0, 0, 0);
     cam.up = Vec3(0, 1, 0);
 
-    cam.defocusAngle = 10.0;
-    cam.focusDistance = 3.4;
+    cam.defocusAngle = 0.6;
+    cam.focusDistance = 10.0;
 
     cam.render(scenery);
 

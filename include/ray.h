@@ -5,12 +5,15 @@ namespace Renderer {
 	class Ray {
 	public:
 		Ray();
+		Ray(const Vec3& point, const Vec3& dir, double t);
 		Ray(const Vec3& point, const Vec3& dir);
 		Vec3 at(double t) const;
 		Vec3 origin() const;
 		Vec3 dir() const;
+		double tm() const;
 	private:
 		Vec3 _origin;
 		Vec3 _direction;
+		double time;
 	};
 }

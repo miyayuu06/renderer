@@ -108,7 +108,8 @@ namespace Renderer {
         Vec3 pixelPosition = pixel00 + deltaH*(offset.x + width) + deltaV* (offset.y + height);
         Vec3 rayOrigin = (defocusAngle <= 0) ? center : diskSample();
         Vec3 rayDir = pixelPosition - rayOrigin;
-        return Ray(rayOrigin, rayDir);
+        double rayTime = random();
+        return Ray(rayOrigin, rayDir, rayTime);
     }
 
     Vec3 Camera::sampleSquare() const {

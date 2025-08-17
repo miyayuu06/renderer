@@ -19,7 +19,7 @@ namespace Renderer {
 				scatterDirection = prop.normal;
 			}
 
-			scatteredRay = Ray(prop.intersectionPoint, scatterDirection);
+			scatteredRay = Ray(prop.intersectionPoint, scatterDirection, r.tm());
 			colorAtenuation = albedo;
 
 			return true;
@@ -36,7 +36,7 @@ namespace Renderer {
 		inline bool scatter(const Ray& r, const HitProperties& prop, Vec3& colorAtenuation, Ray& scatteredRay) {
 			Vec3 reflectedRay = Vec3::reflect(r.dir(), prop.normal);
 			reflectedRay = (reflectedRay + Vec3::randomUnitVector() * fuzziness).norm();
-			scatteredRay = Ray(prop.intersectionPoint, reflectedRay);
+			scatteredRay = Ray(prop.intersectionPoint, reflectedRay, r.tm());
 			colorAtenuation = albedo;
 			return true;
 		}
@@ -65,7 +65,7 @@ namespace Renderer {
 			else {
 				scatteredRayDirection = Vec3::refraction(normalisedRayDir, prop.normal, eta);
 			}
-			scatteredRay = Ray(prop.intersectionPoint, scatteredRayDirection);
+			scatteredRay = Ray(prop.intersectionPoint, scatteredRayDirection, r.tm());
 			return true;
 		}
 
