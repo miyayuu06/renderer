@@ -13,6 +13,8 @@
 #include "camera.h"
 #include "material.h"
 
+#include "bvh.h"
+
 
 using namespace Renderer;
 
@@ -63,6 +65,8 @@ int main()
 
     auto material3 = new Metal(Vec3(0.7, 0.6, 0.5), 0.0);
     scenery.add(new Sphere(Vec3(4, 1, 0), 1.0, material3));
+
+    scenery = HittableList(new BVH(scenery));
 
     Camera cam;
     cam.width = 800;

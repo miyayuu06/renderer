@@ -1,10 +1,15 @@
 #include "hittable_list.h"
+#include <iterator>
 
 namespace Renderer {
 
 	HittableList::HittableList() {
 		objCollection = {};
 	};
+
+	HittableList::HittableList(Hittable* h) {
+		objCollection = { h };
+	}
 
 	void HittableList::add(Hittable* h) {
 		objCollection.push_back(h);

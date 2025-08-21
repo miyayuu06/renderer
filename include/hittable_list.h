@@ -6,7 +6,10 @@
 namespace Renderer {
 	class HittableList : public Hittable {
 	public:
+		std::vector<Hittable*> objCollection;
+
 		HittableList();
+		HittableList(Hittable* h);
 
 		void add(Hittable* h);
 
@@ -15,7 +18,6 @@ namespace Renderer {
 		AABB boundingBox() const;
 
 	private:
-		std::vector<Hittable*> objCollection;
 		AABB bbox;
 	};
 }
