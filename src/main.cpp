@@ -24,8 +24,8 @@ int main()
     Lambertian* ground = new Lambertian(Vec3(0.5, 0.5, 0.5));
     scenery.add(new Sphere(Vec3(0, -1000, 0), 1000, ground));
 
-    for (int a = -11; a < 11; a++) {
-        for (int b = -11; b < 11; b++) {
+    for (int a = -7; a < 7; a++) {
+        for (int b = -7; b < 7; b++) {
             auto choose_mat = random();
             Vec3 center(a + 0.9 * random(), 0.2, b + 0.9 * random());
 

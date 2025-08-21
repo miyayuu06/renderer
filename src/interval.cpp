@@ -15,4 +15,8 @@ namespace Renderer {
 	double Interval::maxi() const {
 		return maximum;
 	}
+
+	Interval Interval::expand(double delta) {
+		return Interval(minimum - delta / 2, maximum + delta / 2);
+	}
 }

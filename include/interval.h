@@ -7,6 +7,7 @@ namespace Renderer {
 		bool belongs(double t) const;
 		double mini() const;
 		double maxi() const;
+		Interval expand(double delta);
 
 	private:
 		double minimum;
