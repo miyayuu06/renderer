@@ -8,6 +8,11 @@ namespace Renderer {
 
 	void HittableList::add(Hittable* h) {
 		objCollection.push_back(h);
+		bbox = AABB(bbox, h->boundingBox());
+	}
+
+	AABB HittableList::boundingBox() const {
+		return bbox;
 	}
 
 	bool HittableList::hit(const Interval& interval, const Ray& r, HitProperties& prop) const {

@@ -12,7 +12,10 @@ namespace Renderer {
 
 		bool hit(const Interval& interval, const Ray &r, HitProperties& prop) const;
 
+		AABB boundingBox() const;
+
 	private:
 		std::vector<Hittable*> objCollection;
+		AABB bbox;
 	};
 }

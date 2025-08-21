@@ -54,6 +54,9 @@
     <ClInclude Include="include\material.h">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="include\aabb.h">
+      <Filter>include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -78,6 +81,9 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\camera.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\aabb.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>

@@ -1,6 +1,5 @@
 #pragma once
-#include "ray.h"
-#include "interval.h"
+#include "aabb.h"
 
 namespace Renderer {
 	class Material;
@@ -22,5 +21,6 @@ namespace Renderer {
 	class Hittable {
 	public:
 		virtual bool hit(const Interval& i, const Ray& r, HitProperties& prop) const = 0;
+		virtual AABB boundingBox() const = 0;
 	};
 }

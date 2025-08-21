@@ -6,12 +6,18 @@ namespace Renderer {
 		sphereCenter = Ray(center, Vec3());
 		radius = r;
 		material = m;
+		bbox = AABB(center - Vec3(r), center + Vec3(r));
 	}
 
 	Sphere::Sphere(const Vec3 p1, const Vec3 p2, double r, Material* m) {
 		sphereCenter = Ray(p1, p2 - p1);
 		radius = r;
 		material = m;
+
+		Vec3 radiusVec(r);
+		AABB box1(sphereCenter.at(0) - radiusVec, sphereCenter.at(0) + radiusVec);
+		AABB box2(sphereCenter.at(1) - radiusVec, sphereCenter.at(1) + radiusVec);
+		bbox = AABB(box1, box2);
 	}
 
 	bool Sphere::hit(const Interval& interval, const Ray& r, HitProperties& prop) const {
@@ -41,6 +47,10 @@ namespace Renderer {
 		prop.correctFrontalOrientation(r);
 
 		return true;
+	}
+
+	AABB Sphere::boundingBox() const {
+		return bbox;
 	}
 
 }

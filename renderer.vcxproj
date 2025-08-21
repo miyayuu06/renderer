@@ -132,6 +132,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="include\aabb.h" />
     <ClInclude Include="include\camera.h" />
     <ClInclude Include="include\color.h" />
     <ClInclude Include="include\hittable.h" />
@@ -147,6 +148,7 @@
     <ClInclude Include="include\vec3.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\aabb.cpp" />
     <ClCompile Include="src\camera.cpp" />
     <ClCompile Include="src\color.cpp" />
     <ClCompile Include="src\hittable_list.cpp" />

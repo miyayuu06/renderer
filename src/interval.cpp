@@ -1,7 +1,14 @@
 #include "interval.h"
 
 namespace Renderer {
+	Interval::Interval() {}
+
 	Interval::Interval(double mini, double maxi) : minimum(mini), maximum(maxi) {
+	}
+
+	Interval::Interval(const Interval& a, const Interval& b) {
+		minimum = a.minimum <= b.minimum ? a.minimum : b.minimum;
+		maximum = a.maximum >= b.maximum ? a.maximum : b.maximum;
 	}
 
 	bool Interval::belongs(double t) const {
