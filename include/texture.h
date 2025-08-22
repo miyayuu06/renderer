@@ -1,5 +1,6 @@
 #pragma once
 #include "vec3.h"
+#include "rtw_image.h"
 
 namespace Renderer {
 	class Texture {
@@ -30,5 +31,13 @@ namespace Renderer {
 		double inv;
 		Texture* even;
 		Texture* odd;
+	};
+
+	class ImageTexture : public Texture {
+	public:
+		ImageTexture(const char* filename);
+		Vec3 value(double u, double v, const Vec3& p) const;
+	private:
+		RTW img;
 	};
 }

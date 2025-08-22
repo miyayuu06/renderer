@@ -1,4 +1,5 @@
 #include "texture.h"
+#include "interval.h"
 #include <cmath>
 
 namespace Renderer {
@@ -26,5 +27,24 @@ namespace Renderer {
 		bool isEven = ((x + y + z) % 2) == 0;
 
 		return isEven ? even->value(u, v, p) : odd->value(u, v, p);
+	}
+
+
+	ImageTexture::ImageTexture(const char* filename) : img(RTW(filename)){}
+
+	Vec3 ImageTexture::value(double u, double v, const Vec3& p) const {
+		if (img.h() <= 0) {
+			return Vec3(0, 1, 1);
+		}
+
+		u = Interval(0, 1).clamp(u);
+		v = Interval(0, 1).clamp(v);
+
+		int i = int(u * img.w());
+		int j = int((1.0 - v) * img.h());
+		const unsigned char *pixel = img.pixelData(i, j);
+
+		double scale = 1.0 / 255.0;
+		return Vec3(pixel[0], pixel[1], pixel[2]) * scale;
 	}
 }

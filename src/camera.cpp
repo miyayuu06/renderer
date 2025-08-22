@@ -1,3 +1,4 @@
+#define STB_IMAGE_WRITE_IMPLEMENTATION
 #include "camera.h"
 #include "color.h"
 #include "stb_image_write.h"

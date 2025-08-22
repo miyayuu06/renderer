@@ -110,10 +110,12 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>C:\Users\yunaf\Documents\projects\renderer\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -142,6 +144,7 @@
     <ClInclude Include="include\material.h" />
     <ClInclude Include="include\ray.h" />
     <ClInclude Include="include\renderer_utils.h" />
+    <ClInclude Include="include\rtw_image.h" />
     <ClInclude Include="include\SDL_pixels.h" />
     <ClInclude Include="include\sphere.h" />
     <ClInclude Include="include\stb_image.h" />
@@ -158,6 +161,7 @@
     <ClCompile Include="src\interval.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\ray.cpp" />
+    <ClCompile Include="src\rtw_image.cpp" />
     <ClCompile Include="src\sphere.cpp" />
     <ClCompile Include="src\texture.cpp" />
     <ClCompile Include="src\vec3.cpp" />

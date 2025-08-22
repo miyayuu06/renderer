@@ -3,11 +3,6 @@
 
 #include <iostream>
 
-#define STB_IMAGE_WRITE_IMPLEMENTATION
-
-#include "stb_image.h"
-#include "stb_image_write.h"
-
 #include "renderer_utils.h"
 #include "sphere.h"
 #include "camera.h"
@@ -112,8 +107,34 @@ void checkeredSpheres() {
     cam.render(world);
 }
 
+void earth() {
+    HittableList world;
+    ImageTexture* texture = new ImageTexture("C:/users/yunaf/Documents/projects/renderer/MixedMedia/earthmap.jpg");
+    Lambertian* surface = new Lambertian(texture);
+
+    world.add(new Sphere(Vec3(0, 0, 0), 2, surface));
+
+    Camera cam;
+
+    cam.aspectRatio = 16.0 / 9.0;
+    cam.width = 400;
+    cam.samplesPerPixel = 100;
+    cam.rayRecursionLimit = 50;
+
+    cam.verticalViewAngle = 20;
+    cam.lookfrom = Vec3(6, 0, -8);
+    cam.lookat = Vec3(0, 0, 0);
+    cam.up = Vec3(0, 1, 0);
+
+    cam.defocusAngle = 0;
+    cam.focusDistance = 1.0;
+
+    cam.render(world);
+}
+
 int main()
 {
     //coverOfChapterOne();
-    checkeredSpheres();
+    //checkeredSpheres();
+    earth();
 }
