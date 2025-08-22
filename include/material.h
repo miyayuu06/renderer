@@ -1,6 +1,7 @@
 #pragma once
 
 #include "hittable.h"
+#include "texture.h"
 
 namespace Renderer {
 	class Material {
@@ -11,7 +12,9 @@ namespace Renderer {
 
 	class Lambertian : public Material {
 	public:
-		Lambertian(const Vec3& alb) : albedo(alb) {}
+		Lambertian(const Vec3& alb) : tex(new Solid(alb)) {}
+		Lambertian(Texture* tex) : tex(tex) {}
+
 		inline bool scatter(const Ray& r, const HitProperties& prop, Vec3& colorAtenuation, Ray& scatteredRay) {
 			Vec3 scatterDirection = prop.normal + Vec3::randomUnitVector();
 
@@ -20,12 +23,12 @@ namespace Renderer {
 			}
 
 			scatteredRay = Ray(prop.intersectionPoint, scatterDirection, r.tm());
-			colorAtenuation = albedo;
+			colorAtenuation = tex->value(prop.u, prop.v, prop.intersectionPoint);
 
 			return true;
 		}
 	private:
-		Vec3 albedo;
+		Texture* tex;
 	};
 
 	class Metal : public Material {

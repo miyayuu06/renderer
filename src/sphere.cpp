@@ -1,6 +1,8 @@
 #include "sphere.h"
 #include <cmath>
 
+#define PI 3.14159265
+
 namespace Renderer {
 	Sphere::Sphere(const Vec3 center, double r, Material* m) {
 		sphereCenter = Ray(center, Vec3());
@@ -41,12 +43,21 @@ namespace Renderer {
 		}
 		prop.tValue = collisionPoint;
 		prop.intersectionPoint = r.at(collisionPoint);
-		prop.normal = (prop.intersectionPoint - currentCenter) / radius;
+		prop.normal = (prop.intersectionPoint - currentCenter) / radius; 
+		prop.correctFrontalOrientation(r);
+		getUV(prop.normal, prop.u, prop.v);
+
 		prop.mat = material;
 
-		prop.correctFrontalOrientation(r);
-
 		return true;
+	}
+
+	void Sphere::getUV(const Vec3& p, double& u, double& v) {
+		double phi = std::atan2(p.z, p.x) + PI;
+		double theta = std::acos(p.y);
+		
+		u = phi / (2 * PI);
+		v = 1 - theta / PI;
 	}
 
 	AABB Sphere::boundingBox() const {

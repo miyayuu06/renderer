@@ -18,12 +18,11 @@
 
 using namespace Renderer;
 
-int main()
-{
+void coverOfChapterOne() {
 
     HittableList scenery;
 
-    Lambertian* ground = new Lambertian(Vec3(0.5, 0.5, 0.5));
+    Lambertian* ground = new Lambertian(new Checkered(0.32, Vec3(.2, .3, .1), Vec3(.9, .9, .9)));
     scenery.add(new Sphere(Vec3(0, -1000, 0), 1000, ground));
 
     for (int a = -7; a < 7; a++) {
@@ -84,5 +83,38 @@ int main()
     cam.focusDistance = 10.0;
 
     cam.render(scenery);
+}
 
+void checkeredSpheres() {
+    HittableList world;
+
+    auto checker = new Checkered(0.32, Vec3(.2, .3, .1), Vec3(.9, .9, .9));
+
+    world.add(new Sphere(Vec3(0, -10, 0), 10, new Lambertian(checker)));
+    world.add(new Sphere(Vec3(0, 10, 0), 10, new Lambertian(checker)));
+
+    world = HittableList(new BVH(world));
+
+    Camera cam;
+
+    cam.aspectRatio = 16.0 / 9.0;
+    cam.width = 400;
+    cam.samplesPerPixel = 100;
+    cam.rayRecursionLimit = 50;
+
+    cam.verticalViewAngle = 20;
+    cam.lookfrom = Vec3(13, 2, -3);
+    cam.lookat = Vec3(0, 0, 0);
+    cam.up = Vec3(0, 1, 0);
+
+    cam.defocusAngle = 0;
+    cam.focusDistance = 1.0;
+
+    cam.render(world);
+}
+
+int main()
+{
+    //coverOfChapterOne();
+    checkeredSpheres();
 }

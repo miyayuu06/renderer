@@ -10,6 +10,8 @@ namespace Renderer {
 		Vec3 normal;
 		Material* mat;
 		double tValue;
+		double u;
+		double v;
 		bool frontFace;
 
 		void correctFrontalOrientation(const Ray &r) {
