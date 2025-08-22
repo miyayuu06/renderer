@@ -22,6 +22,9 @@ namespace Renderer {
 		int x = int(std::floor(p.x * inv));
 		int y = int(std::floor(p.y * inv));
 		int z = int(std::floor(p.z * inv));
-		return (x + y + z) % 2 ? odd->value(u, v, p) : even->value(u, v, p);
+
+		bool isEven = ((x + y + z) % 2) == 0;
+
+		return isEven ? even->value(u, v, p) : odd->value(u, v, p);
 	}
 }

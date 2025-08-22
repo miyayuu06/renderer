@@ -12,6 +12,7 @@
 #include "sphere.h"
 #include "camera.h"
 #include "material.h"
+#include "texture.h"
 
 #include "bvh.h"
 
@@ -90,10 +91,8 @@ void checkeredSpheres() {
 
     auto checker = new Checkered(0.32, Vec3(.2, .3, .1), Vec3(.9, .9, .9));
 
-    world.add(new Sphere(Vec3(0, -10, 0), 10, new Lambertian(checker)));
+    //world.add(new Sphere(Vec3(0, -10, 0), 10, new Lambertian(checker)));
     world.add(new Sphere(Vec3(0, 10, 0), 10, new Lambertian(checker)));
-
-    world = HittableList(new BVH(world));
 
     Camera cam;
 

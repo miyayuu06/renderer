@@ -9,7 +9,6 @@ namespace Renderer {
 		Sphere(const Vec3 center, double r, Material* m);
 		Sphere(const Vec3 p1, const Vec3 p2, double r, Material* m);
 		bool hit(const Interval& interval, const Ray& r, HitProperties& prop) const;
-		static void getUV(const Vec3& p, double& u, double& v);
 		AABB boundingBox() const;
 	
 	private:
@@ -17,5 +16,7 @@ namespace Renderer {
 		double radius;
 		Material* material;
 		AABB bbox;
+
+		static void getUV(const Vec3& p, double& u, double& v);
 	};
 }
