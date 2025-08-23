@@ -9,16 +9,6 @@ namespace Renderer {
 		setBoundingBox();
 	}
 
-	void Triangle::setBoundingBox() {
-		AABB b1 = AABB(Q, Q + u + v);
-		AABB b2 = AABB(Q + u, Q + v);
-		bbox = AABB(b1, b2);
-	}
-
-	AABB Triangle::boundingBox() const {
-		return bbox;
-	}
-
 	bool Triangle::hit(const Interval& i, const Ray& r, HitProperties& prop) const {
 		double denominator = normal.dot(r.dir());
 
@@ -44,7 +34,6 @@ namespace Renderer {
 		if (!isInterior(alpha, beta, prop)) {
 			return false;
 		}
-
 
 		return true;
 	}

@@ -148,7 +148,7 @@ void quads() {
     Lambertian* teal = new Lambertian(Vec3(0.2, 0.8, 0.8));
 
     world.add(new Quad(Vec3(-3, -2, -5), Vec3(0, 0, 4), Vec3(0, 4, 0), red));
-    world.add(new Quad(Vec3(-2, -2, 0), Vec3(4, 0, 0), Vec3(0, 4, 0), green));
+    world.add(new Triangle(Vec3(-2, -2, 0), Vec3(4, 0, 0), Vec3(2, 4, 0), green));
     world.add(new Quad(Vec3(3, -2, -1), Vec3(0, 0, -4), Vec3(0, 4, 0), blue));
     world.add(new Quad(Vec3(-2, 3, -1), Vec3(4, 0, 0), Vec3(0, 0, -4), orange));
     world.add(new Quad(Vec3(-2, -3, -5), Vec3(4, 0, 0), Vec3(0, 0, 4), teal));

@@ -5,8 +5,6 @@ namespace Renderer {
 	class Triangle : public Quad {
 	public:
 		Triangle(const Vec3& q, const Vec3& u, const Vec3& v, Material* m);
-		void setBoundingBox();
-		AABB boundingBox() const;
 		bool hit(const Interval& i, const Ray& r, HitProperties& prop) const;
 		bool isInterior(double a, double, HitProperties& prop) const;
 	private:
