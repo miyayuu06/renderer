@@ -66,6 +66,9 @@
     <ClInclude Include="include\stb_image_write.h">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="include\quad.h">
+      <Filter>include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -102,6 +105,9 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\rtw_image.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\quad.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>

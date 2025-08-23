@@ -4,12 +4,14 @@
 #include <iostream>
 
 #include "renderer_utils.h"
-#include "sphere.h"
 #include "camera.h"
 #include "material.h"
 #include "texture.h"
 
 #include "bvh.h"
+
+#include "sphere.h"
+#include "quad.h"
 
 
 using namespace Renderer;
@@ -110,6 +112,7 @@ void checkeredSpheres() {
 void earth() {
     HittableList world;
     ImageTexture* texture = new ImageTexture("C:/users/yunaf/Documents/projects/renderer/MixedMedia/earthmap.jpg");
+    //ImageTexture* texture = new ImageTexture("C:/users/yunaf/Desktop/elena.jpg");
     Lambertian* surface = new Lambertian(texture);
 
     world.add(new Sphere(Vec3(0, 0, 0), 2, surface));
@@ -122,7 +125,42 @@ void earth() {
     cam.rayRecursionLimit = 50;
 
     cam.verticalViewAngle = 20;
-    cam.lookfrom = Vec3(6, 0, -8);
+    //cam.lookfrom = Vec3(6, 0, -8);
+    cam.lookfrom = Vec3(12, 0, 0);
+    cam.lookat = Vec3(0, 0, 0);
+    cam.up = Vec3(0, 1, 0);
+
+    cam.defocusAngle = 0;
+    cam.focusDistance = 1.0;
+
+    cam.render(world);
+}
+
+void quads() {
+    HittableList world;
+    ImageTexture* texture = new ImageTexture("C:/users/yunaf/Desktop/luka.jpg");
+    Lambertian* green= new Lambertian(texture);
+
+    Lambertian* red = new Lambertian(Vec3(1.0, 0.2, 0.2));
+    Lambertian* blue = new Lambertian(Vec3(0.2, 0.2, 1.0));
+    Lambertian* orange = new Lambertian(Vec3(1.0, 0.5, 0.0));
+    Lambertian* teal = new Lambertian(Vec3(0.2, 0.8, 0.8));
+
+    world.add(new Quad(Vec3(-3, -2, -5), Vec3(0, 0, 4), Vec3(0, 4, 0), red));
+    world.add(new Quad(Vec3(-2, -2, 0), Vec3(4, 0, 0), Vec3(0, 4, 0), green));
+    world.add(new Quad(Vec3(3, -2, -1), Vec3(0, 0, -4), Vec3(0, 4, 0), blue));
+    world.add(new Quad(Vec3(-2, 3, -1), Vec3(4, 0, 0), Vec3(0, 0, -4), orange));
+    world.add(new Quad(Vec3(-2, -3, -5), Vec3(4, 0, 0), Vec3(0, 0, 4), teal));
+
+    Camera cam;
+
+    cam.aspectRatio = 1.0;
+    cam.width = 400;
+    cam.samplesPerPixel = 100;
+    cam.rayRecursionLimit = 50;
+
+    cam.verticalViewAngle = 80;
+    cam.lookfrom = Vec3(0, 0, -9);
     cam.lookat = Vec3(0, 0, 0);
     cam.up = Vec3(0, 1, 0);
 
@@ -136,5 +174,6 @@ int main()
 {
     //coverOfChapterOne();
     //checkeredSpheres();
-    earth();
+    //earth();
+    quads();
 }

@@ -15,5 +15,7 @@ namespace Renderer {
 		const Interval& axisInterval(int n) const;
 
 		bool hit(const Ray& r, Interval rayT) const;
+	private:
+		void padToMinimum();
 	};
 }
