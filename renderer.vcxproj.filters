@@ -69,6 +69,12 @@
     <ClInclude Include="include\quad.h">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="include\disk.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\triangle.h">
+      <Filter>include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -108,6 +114,9 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\quad.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\triangle.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>

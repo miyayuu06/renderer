@@ -138,6 +138,7 @@
     <ClInclude Include="include\bvh.h" />
     <ClInclude Include="include\camera.h" />
     <ClInclude Include="include\color.h" />
+    <ClInclude Include="include\disk.h" />
     <ClInclude Include="include\hittable.h" />
     <ClInclude Include="include\hittable_list.h" />
     <ClInclude Include="include\interval.h" />
@@ -151,6 +152,7 @@
     <ClInclude Include="include\stb_image.h" />
     <ClInclude Include="include\stb_image_write.h" />
     <ClInclude Include="include\texture.h" />
+    <ClInclude Include="include\triangle.h" />
     <ClInclude Include="include\vec3.h" />
   </ItemGroup>
   <ItemGroup>
@@ -166,6 +168,7 @@
     <ClCompile Include="src\rtw_image.cpp" />
     <ClCompile Include="src\sphere.cpp" />
     <ClCompile Include="src\texture.cpp" />
+    <ClCompile Include="src\triangle.cpp" />
     <ClCompile Include="src\vec3.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

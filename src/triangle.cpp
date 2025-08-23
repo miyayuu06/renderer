@@ -1,9 +1,7 @@
-#include "quad.h"
+#include "triangle.h"
 
 namespace Renderer {
-	Quad::Quad() {}
-
-	Quad::Quad(const Vec3& q, const Vec3& u, const Vec3& v, Material* m) : Q(q), u(u), v(v), mat(m) {
+	Triangle::Triangle(const Vec3& q, const Vec3& u, const Vec3& v, Material* m) : Q(q), u(u), v(v), mat(m) {
 		Vec3 n = u.cross(v);
 		normal = n.norm();
 		D = normal.dot(Q);
@@ -11,17 +9,17 @@ namespace Renderer {
 		setBoundingBox();
 	}
 
-	void Quad::setBoundingBox() {
+	void Triangle::setBoundingBox() {
 		AABB b1 = AABB(Q, Q + u + v);
 		AABB b2 = AABB(Q + u, Q + v);
 		bbox = AABB(b1, b2);
 	}
 
-	AABB Quad::boundingBox() const {
+	AABB Triangle::boundingBox() const {
 		return bbox;
 	}
 
-	bool Quad::hit(const Interval& i, const Ray& r, HitProperties& prop) const {
+	bool Triangle::hit(const Interval& i, const Ray& r, HitProperties& prop) const {
 		double denominator = normal.dot(r.dir());
 
 		if (denominator < 1e-8) {
@@ -51,8 +49,8 @@ namespace Renderer {
 		return true;
 	}
 
-	bool Quad::isInterior(double a, double b, HitProperties& prop) const {
-		if (a < 0.0 || a > 1.0 || b < 0.0 || b > 1.0) {
+	bool Triangle::isInterior(double a, double b, HitProperties& prop) const {
+		if (!(a > 0.0 && b > 0.0 && (a+b) < 1.0)) {
 			return false;
 		}
 

@@ -12,6 +12,7 @@
 
 #include "sphere.h"
 #include "quad.h"
+#include "triangle.h"
 
 
 using namespace Renderer;
