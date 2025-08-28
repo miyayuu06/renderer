@@ -14,5 +14,6 @@ namespace Renderer {
 		int pz[256];
 		static void generateRandomPerlin(int* p);
 		static void permute(int* p, int n);
+		static double trilinearInterpolation(double c[2][2][2], double u, double v, double w);
 	};
 }
