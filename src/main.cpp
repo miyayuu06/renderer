@@ -181,7 +181,7 @@ void quads() {
 void perlinTest() {
     HittableList world;
 
-    NoiseTexture* pertext = new NoiseTexture();
+    NoiseTexture* pertext = new NoiseTexture(4);
     world.add(new Sphere(Vec3(0, -1000, 0), 1000, new Lambertian(pertext)));
     world.add(new Sphere(Vec3(0, 2, 0), 2, new Lambertian(pertext)));
 

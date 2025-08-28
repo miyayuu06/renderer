@@ -48,9 +48,9 @@ namespace Renderer {
 		return Vec3(pixel[0], pixel[1], pixel[2]) * scale;
 	}
 
-	NoiseTexture::NoiseTexture() {}
+	NoiseTexture::NoiseTexture(double s) : scale(s) {}
 
 	Vec3 NoiseTexture::value(double u, double v, const Vec3& p) const {
-		return Vec3(1.0) * noise.noise(p);
+		return Vec3(0.5) * (1.0 + sin(p.z + 10 * noise.turbulence(p, 7)));
 	}
 }

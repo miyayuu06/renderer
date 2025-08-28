@@ -7,13 +7,14 @@ namespace Renderer {
 	public:
 		Perlin();
 		double noise(const Vec3& p) const;
+		double turbulence(const Vec3& p, int depth) const;
 	private:
-		double randFloat[256];
+		Vec3 randVec[256];
 		int px[256];
 		int py[256];
 		int pz[256];
 		static void generateRandomPerlin(int* p);
 		static void permute(int* p, int n);
-		static double trilinearInterpolation(double c[2][2][2], double u, double v, double w);
+		static double trilinearInterpolation(Vec3 c[2][2][2], double u, double v, double w);
 	};
 }

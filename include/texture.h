@@ -43,10 +43,11 @@ namespace Renderer {
 
 	class NoiseTexture : public Texture {
 	public:
-		NoiseTexture();
+		NoiseTexture(double s);
 
 		Vec3 value(double u, double v, const Vec3& p) const;
 	private:
 		Perlin noise;
+		double scale;
 	};
 }
