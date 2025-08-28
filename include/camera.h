@@ -20,6 +20,8 @@ namespace Renderer {
 		Vec3 lookat;
 		Vec3 up;
 
+		Vec3 background;
+
 		void initialize();
 		void render(const HittableList& list);
 	private:

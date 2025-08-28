@@ -14,7 +14,6 @@ namespace Renderer {
     }
 
     Vec3 Camera::ray_color(const HittableList& scenery, const Ray& r, int depth) {
-
         if (depth <= 0) {
             return Vec3(0.0);
         }
@@ -23,19 +22,21 @@ namespace Renderer {
         HitProperties record;
         Interval rangeOfRender(0.001, INFINITY);
 
-        if (scenery.hit(rangeOfRender, r, record)) {
-            Ray scattered;
-            Vec3 atenuation;
-            if (record.mat->scatter(r, record, atenuation, scattered)) {
-                return Vec3::Vec3Mult(atenuation, ray_color(scenery, scattered, depth - 1));
-            }
-            return Vec3(0.0);
+        if (!scenery.hit(rangeOfRender, r, record)) {
+            return background;
         }
 
-        // Background
-        Vec3 unitVec3tor = r.dir().norm();
-        double a = (unitVec3tor.y + 1.0) * 0.5;
-        return Vec3(1.0 - a) + Vec3(0.5, 0.7, 1.0) * a;
+        Ray scattered;
+        Vec3 atenuation;
+        Vec3 emissionColor = record.mat->emitted(record.u, record.v, record.intersectionPoint);
+
+        if (!record.mat->scatter(r, record, atenuation, scattered)) {
+            return emissionColor;
+        }
+
+        Vec3 scatterColor = Vec3::Vec3Mult(atenuation, ray_color(scenery, scattered, depth - 1));
+
+        return emissionColor + scatterColor;
     }
 
     void Camera::initialize() {

@@ -81,6 +81,7 @@ void coverOfChapterOne() {
 
     cam.defocusAngle = 0.6;
     cam.focusDistance = 10.0;
+    cam.background = Vec3(0.70, 0.80, 1.00);
 
     cam.render(scenery);
 }
@@ -107,6 +108,7 @@ void checkeredSpheres() {
 
     cam.defocusAngle = 0;
     cam.focusDistance = 1.0;
+    cam.background = Vec3(0.70, 0.80, 1.00);
 
     cam.render(world);
 }
@@ -134,6 +136,7 @@ void earth() {
 
     cam.defocusAngle = 0;
     cam.focusDistance = 1.0;
+    cam.background = Vec3(0.70, 0.80, 1.00);
 
     cam.render(world);
 }
@@ -174,6 +177,7 @@ void quads() {
 
     cam.defocusAngle = 0;
     cam.focusDistance = 1.0;
+    cam.background = Vec3(0.70, 0.80, 1.00);
 
     cam.render(world);
 }
@@ -185,6 +189,9 @@ void perlinTest() {
     world.add(new Sphere(Vec3(0, -1000, 0), 1000, new Lambertian(pertext)));
     world.add(new Sphere(Vec3(0, 2, 0), 2, new Lambertian(pertext)));
 
+    auto difflight = new Light(Vec3(4, 4, 4));
+    world.add(new Quad(Vec3(3, 1, 2), Vec3(2, 0, 0), Vec3(0, 2, 0), difflight));
+
     Camera cam;
 
     cam.aspectRatio = 16.0 / 9.0;
@@ -193,12 +200,14 @@ void perlinTest() {
     cam.rayRecursionLimit = 50;
 
     cam.verticalViewAngle = 20;
-    cam.lookfrom = Vec3(13, 2, -3);
-    cam.lookat = Vec3(0, 0, 0);
+    cam.lookfrom = Vec3(26, 3, -6);
+    cam.lookat = Vec3(0, 2, 0);
     cam.up = Vec3(0, 1, 0);
 
     cam.defocusAngle = 0;
     cam.focusDistance = 0.1;
+
+    cam.background = Vec3(0.0);
 
     cam.render(world);
 }

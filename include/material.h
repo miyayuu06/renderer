@@ -7,7 +7,14 @@ namespace Renderer {
 	class Material {
 	public:
 		virtual ~Material() = default;
-		virtual bool scatter(const Ray& r, const HitProperties& prop, Vec3& colorAtenuation, Ray& scatteredRay) = 0;
+
+		virtual bool scatter(const Ray& r, const HitProperties& prop, Vec3& colorAtenuation, Ray& scatteredRay) const {
+			return false;
+		}
+
+		virtual Vec3 emitted(double u, double v, const Vec3& p) const {
+			return Vec3(0.0);
+		}
 	};
 
 	class Lambertian : public Material {
@@ -15,7 +22,7 @@ namespace Renderer {
 		Lambertian(const Vec3& alb) : tex(new Solid(alb)) {}
 		Lambertian(Texture* tex) : tex(tex) {}
 
-		inline bool scatter(const Ray& r, const HitProperties& prop, Vec3& colorAtenuation, Ray& scatteredRay) {
+		bool scatter(const Ray& r, const HitProperties& prop, Vec3& colorAtenuation, Ray& scatteredRay) const {
 			Vec3 scatterDirection = prop.normal + Vec3::randomUnitVector();
 
 			if (scatterDirection.nearZero()) {
@@ -36,7 +43,7 @@ namespace Renderer {
 		Metal(const Vec3& alb, double fuzz) : albedo(alb) {
 			fuzziness = fuzz < 1 ? fuzz : 1;
 		}
-		inline bool scatter(const Ray& r, const HitProperties& prop, Vec3& colorAtenuation, Ray& scatteredRay) {
+		bool scatter(const Ray& r, const HitProperties& prop, Vec3& colorAtenuation, Ray& scatteredRay) const {
 			Vec3 reflectedRay = Vec3::reflect(r.dir(), prop.normal);
 			reflectedRay = (reflectedRay + Vec3::randomUnitVector() * fuzziness).norm();
 			scatteredRay = Ray(prop.intersectionPoint, reflectedRay, r.tm());
@@ -52,7 +59,7 @@ namespace Renderer {
 	public:
 		Dielectric(double refractionIndex) : refractionIndex(refractionIndex) {}
 
-		inline bool scatter(const Ray& r, const HitProperties& prop, Vec3& colorAtenuation, Ray& scatteredRay) {
+		bool scatter(const Ray& r, const HitProperties& prop, Vec3& colorAtenuation, Ray& scatteredRay) const {
 			colorAtenuation = Vec3(1.0);
 			Vec3 normalisedRayDir = r.dir().norm();
 			double eta = prop.frontFace ? (1.0 / refractionIndex) : refractionIndex;
@@ -80,5 +87,18 @@ namespace Renderer {
 			r0 = r0 * r0;
 			return r0 + (1 - r0) * pow(1 - cosT, 5);
 		}
+	};
+
+	class Light : public Material {
+	public:
+		Light(Texture* t) : tex(t) {}
+		Light(const Vec3& color) : tex(new Solid(color)) {}
+
+		Vec3 emitted(double u, double v, const Vec3& p) const {
+			return tex->value(u, v, p);
+		}
+
+	private:
+		Texture* tex;
 	};
 }
