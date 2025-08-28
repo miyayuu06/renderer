@@ -13,6 +13,7 @@
 #include "sphere.h"
 #include "quad.h"
 #include "triangle.h"
+#include "disk.h"
 
 
 using namespace Renderer;
@@ -148,7 +149,13 @@ void quads() {
     Lambertian* teal = new Lambertian(Vec3(0.2, 0.8, 0.8));
 
     world.add(new Quad(Vec3(-3, -2, -5), Vec3(0, 0, 4), Vec3(0, 4, 0), red));
-    world.add(new Triangle(Vec3(-2, -2, 0), Vec3(4, 0, 0), Vec3(2, 4, 0), green));
+    //world.add(new Triangle(Vec3(-2, -2, 0), Vec3(4, 0, 0), Vec3(2, 4, 0), green));
+    //world.add(new Disk(Vec3(-2, 2, 0), Vec3(0, 4, 0), Vec3(4, 0, 0), green, 2.0));
+
+
+    //DISK TO BE IMPLEMENTED
+
+
     world.add(new Quad(Vec3(3, -2, -1), Vec3(0, 0, -4), Vec3(0, 4, 0), blue));
     world.add(new Quad(Vec3(-2, 3, -1), Vec3(4, 0, 0), Vec3(0, 0, -4), orange));
     world.add(new Quad(Vec3(-2, -3, -5), Vec3(4, 0, 0), Vec3(0, 0, 4), teal));
@@ -171,10 +178,36 @@ void quads() {
     cam.render(world);
 }
 
+void perlinTest() {
+    HittableList world;
+
+    NoiseTexture* pertext = new NoiseTexture();
+    world.add(new Sphere(Vec3(0, -1000, 0), 1000, new Lambertian(pertext)));
+    world.add(new Sphere(Vec3(0, 2, 0), 2, new Lambertian(pertext)));
+
+    Camera cam;
+
+    cam.aspectRatio = 16.0 / 9.0;
+    cam.width = 400;
+    cam.samplesPerPixel = 100;
+    cam.rayRecursionLimit = 50;
+
+    cam.verticalViewAngle = 20;
+    cam.lookfrom = Vec3(13, 2, -3);
+    cam.lookat = Vec3(0, 0, 0);
+    cam.up = Vec3(0, 1, 0);
+
+    cam.defocusAngle = 0;
+    cam.focusDistance = 0.1;
+
+    cam.render(world);
+}
+
 int main()
 {
     //coverOfChapterOne();
     //checkeredSpheres();
     //earth();
-    quads();
+    //quads();
+    perlinTest();
 }

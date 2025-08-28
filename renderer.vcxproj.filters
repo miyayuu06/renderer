@@ -75,6 +75,9 @@
     <ClInclude Include="include\triangle.h">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="include\perlin.h">
+      <Filter>include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -117,6 +120,12 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\triangle.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\disk.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\perlin.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>

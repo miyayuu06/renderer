@@ -143,6 +143,7 @@
     <ClInclude Include="include\hittable_list.h" />
     <ClInclude Include="include\interval.h" />
     <ClInclude Include="include\material.h" />
+    <ClInclude Include="include\perlin.h" />
     <ClInclude Include="include\quad.h" />
     <ClInclude Include="include\ray.h" />
     <ClInclude Include="include\renderer_utils.h" />
@@ -160,9 +161,11 @@
     <ClCompile Include="src\bvh.cpp" />
     <ClCompile Include="src\camera.cpp" />
     <ClCompile Include="src\color.cpp" />
+    <ClCompile Include="src\disk.cpp" />
     <ClCompile Include="src\hittable_list.cpp" />
     <ClCompile Include="src\interval.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\perlin.cpp" />
     <ClCompile Include="src\quad.cpp" />
     <ClCompile Include="src\ray.cpp" />
     <ClCompile Include="src\rtw_image.cpp" />

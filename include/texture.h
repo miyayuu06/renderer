@@ -1,5 +1,5 @@
 #pragma once
-#include "vec3.h"
+#include "perlin.h"
 #include "rtw_image.h"
 
 namespace Renderer {
@@ -39,5 +39,14 @@ namespace Renderer {
 		Vec3 value(double u, double v, const Vec3& p) const;
 	private:
 		RTW img;
+	};
+
+	class NoiseTexture : public Texture {
+	public:
+		NoiseTexture();
+
+		Vec3 value(double u, double v, const Vec3& p) const;
+	private:
+		Perlin noise;
 	};
 }

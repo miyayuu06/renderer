@@ -47,4 +47,10 @@ namespace Renderer {
 		double scale = 1.0 / 255.0;
 		return Vec3(pixel[0], pixel[1], pixel[2]) * scale;
 	}
+
+	NoiseTexture::NoiseTexture() {}
+
+	Vec3 NoiseTexture::value(double u, double v, const Vec3& p) const {
+		return Vec3(1.0) * noise.noise(p);
+	}
 }
