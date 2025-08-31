@@ -11,6 +11,8 @@ namespace Renderer {
 		double maxi() const;
 		Interval expand(double delta);
 
+		Interval operator+(double displace) const;
+
 		double clamp(double x) const;
 
 		double minimum;

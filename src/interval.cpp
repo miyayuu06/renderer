@@ -27,6 +27,10 @@ namespace Renderer {
 		return Interval(minimum - delta / 2, maximum + delta / 2);
 	}
 
+	Interval Interval::operator+(double displace) const {
+		return Interval(minimum + displace, maximum + displace);
+	}
+
 	double Interval::clamp(double x) const {
 		if (x < minimum) return minimum;
 		if (x > maximum) return maximum;

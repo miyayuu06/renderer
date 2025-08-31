@@ -64,6 +64,10 @@ namespace Renderer {
 
 	}
 
+	AABB AABB::operator+(const Vec3& offset) {
+		return AABB(x + offset.x, y + offset.y, z + offset.z);
+	}
+
 	void AABB::padToMinimum() {
 		double delta = 0.0001;
 

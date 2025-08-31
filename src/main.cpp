@@ -229,8 +229,16 @@ void cornellBox() {
     world.add(new Quad(Vec3(555, 555, -555), Vec3(-555, 0, 0), Vec3(0, 0, 555), white));
     world.add(new Quad(Vec3(0, 555, -555), Vec3(555, 0, 0), Vec3(0, -555, 0), white));
 
-    Quad::cube(Vec3(130, 0, -65), Vec3(295, 165, -130), green, world);
-    Quad::cube(Vec3(265, 0, -295), Vec3(430, 330, -460), red, world);
+    Hittable* box1 = Quad::box(Vec3(), Vec3(165, 330, -165), white);
+    box1 = new RotationY(box1, 15);
+    box1 = new Translation(box1, Vec3(265, 0, -295));
+    world.add(box1);
+
+    Hittable* box2 = Quad::box(Vec3(), Vec3(165, 165, -165), white);
+    box2 = new RotationY(box2, -18);
+    box2 = new Translation(box2, Vec3(130, 0, -65));
+    world.add(box2);
+
     
     Camera cam;
 
@@ -241,7 +249,7 @@ void cornellBox() {
     cam.background = Vec3(0);
 
     cam.verticalViewAngle = 40;
-    cam.lookfrom = Vec3(400, 400, 800);
+    cam.lookfrom = Vec3(278, 278, 800);
     cam.lookat = Vec3(278, 278, 0);
     cam.up = Vec3(0, 1, 0);
 

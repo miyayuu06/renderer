@@ -15,6 +15,9 @@ namespace Renderer {
 		const Interval& axisInterval(int n) const;
 
 		bool hit(const Ray& r, Interval rayT) const;
+
+		AABB operator+(const Vec3& offset);
+
 	private:
 		void padToMinimum();
 	};
