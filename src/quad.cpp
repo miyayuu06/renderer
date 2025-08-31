@@ -60,4 +60,20 @@ namespace Renderer {
 		prop.v = b;
 		return true;
 	}
+
+	void Quad::cube(const Vec3& a, const Vec3& b, Material* mat, HittableList& world) {
+		Vec3 min = Vec3(fmin(a.x, b.x), fmin(a.y, b.y), fmin(a.z, b.z));
+		Vec3 max = Vec3(fmax(a.x, b.x), fmax(a.y, b.y), fmax(a.z, b.z));
+
+		Vec3 x = Vec3(max.x - min.x, 0, 0);
+		Vec3 y = Vec3(0, max.y - min.y, 0);
+		Vec3 z = Vec3(0, 0, max.z - min.z);
+
+		world.add(new Quad(Vec3(min.x, min.y, max.z), y, x, mat));
+		world.add(new Quad(Vec3(max.x, min.y, max.z), y, -z, mat));
+		world.add(new Quad(Vec3(max.x, min.y, min.z), y, -x, mat));
+		world.add(new Quad(Vec3(min.x, min.y, min.z), z, y, mat));
+		world.add(new Quad(Vec3(min.x, max.y, max.z), -z, x, mat));
+		world.add(new Quad(Vec3(min.x, min.y, min.z), z, x, mat));
+	}
 }

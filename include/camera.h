@@ -14,7 +14,7 @@ namespace Renderer {
 		double verticalViewAngle;
 
 		double defocusAngle;
-		double focusDistance;
+		double focusDistance = 10;
 		
 		Vec3 lookfrom;
 		Vec3 lookat;

@@ -190,14 +190,16 @@ void perlinTest() {
     world.add(new Sphere(Vec3(0, 2, 0), 2, new Lambertian(pertext)));
 
     auto difflight = new Light(Vec3(4, 4, 4));
+
+    world.add(new Sphere(Vec3(0, 7, 0), 2, difflight));
     world.add(new Quad(Vec3(3, 1, 2), Vec3(2, 0, 0), Vec3(0, 2, 0), difflight));
 
     Camera cam;
 
     cam.aspectRatio = 16.0 / 9.0;
-    cam.width = 400;
-    cam.samplesPerPixel = 100;
-    cam.rayRecursionLimit = 50;
+    cam.width = 1200;
+    cam.samplesPerPixel = 500;
+    cam.rayRecursionLimit = 100;
 
     cam.verticalViewAngle = 20;
     cam.lookfrom = Vec3(26, 3, -6);
@@ -212,11 +214,58 @@ void perlinTest() {
     cam.render(world);
 }
 
+void cornellBox() {
+    HittableList world;
+
+    auto red = new Lambertian(Vec3(.65, .05, .05));
+    auto white = new Lambertian(Vec3(.73, .73, .73));
+    auto green = new Lambertian(Vec3(.12, .45, .15));
+    auto light = new Light(Vec3(15, 15, 15));
+
+    world.add(new Quad(Vec3(555, 0, -555), Vec3(0, 555, 0), Vec3(0, 0, 555), green));
+    world.add(new Quad(Vec3(0, 0, 0), Vec3(0, 555, 0), Vec3(0, 0, -555), red));
+    world.add(new Quad(Vec3(343, 554, -332), Vec3(-130, 0, 0), Vec3(0, 0, 105), light));
+    world.add(new Quad(Vec3(0, 0, -555), Vec3(555, 0, 0), Vec3(0, 0, 555), white));
+    world.add(new Quad(Vec3(555, 555, -555), Vec3(-555, 0, 0), Vec3(0, 0, 555), white));
+    world.add(new Quad(Vec3(0, 555, -555), Vec3(555, 0, 0), Vec3(0, -555, 0), white));
+
+    Quad::cube(Vec3(130, 0, -65), Vec3(295, 165, -130), green, world);
+    Quad::cube(Vec3(265, 0, -295), Vec3(430, 330, -460), red, world);
+    
+    Camera cam;
+
+    cam.aspectRatio = 1.0;
+    cam.width = 450;
+    cam.samplesPerPixel = 100;
+    cam.rayRecursionLimit = 20;
+    cam.background = Vec3(0);
+
+    cam.verticalViewAngle = 40;
+    cam.lookfrom = Vec3(400, 400, 800);
+    cam.lookat = Vec3(278, 278, 0);
+    cam.up = Vec3(0, 1, 0);
+
+    cam.defocusAngle = 0;
+
+    cam.render(world);
+}
+
 int main()
 {
-    //coverOfChapterOne();
-    //checkeredSpheres();
-    //earth();
-    //quads();
-    perlinTest();
+    //srand(time(NULL));
+    
+    switch (6) {
+        case 1:
+            coverOfChapterOne(); break;
+        case 2:
+            checkeredSpheres(); break;
+        case 3:
+            earth(); break;
+        case 4:
+            quads(); break;
+        case 5:
+            perlinTest(); break;
+        case 6:
+            cornellBox(); break;
+    }
 }

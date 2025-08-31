@@ -1,5 +1,5 @@
 #pragma once
-#include "hittable.h"
+#include "hittable_list.h"
 
 namespace Renderer {
 	class Quad : public Hittable {
@@ -10,6 +10,7 @@ namespace Renderer {
 		AABB boundingBox() const;
 		bool hit(const Interval& i, const Ray& r, HitProperties& prop) const;
 		virtual bool isInterior(double a, double, HitProperties& prop) const;
+		static void cube(const Vec3& a, const Vec3& b, Material* m, HittableList& world);
 	private:
 		Vec3 Q;
 		Vec3 u, v;
