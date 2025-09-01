@@ -142,7 +142,7 @@ namespace Renderer {
 	}
 
 	Vec3 Vec3::reflect(const Vec3& v, const Vec3& n) {
-		return v - n * 2 * (v.dot(n));
+		return (v - n * 2 * (v.dot(n))).norm();
 	}
 
 	Vec3 Vec3::refraction(const Vec3& r, const Vec3& n, double etaProportion) {
@@ -150,7 +150,7 @@ namespace Renderer {
 		Vec3 perp = (r + (n * cosine)) * etaProportion;
 		double k = 1.0 - perp.lengthSquared();
 		Vec3 parallel = (k < 0) ? Vec3(0.0) : n * -(sqrt(k));
-		return perp + parallel;
+		return (perp + parallel).norm();
 	}
 
 }

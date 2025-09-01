@@ -78,6 +78,9 @@
     <ClInclude Include="include\perlin.h">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="include\constant_medium.h">
+      <Filter>include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -126,6 +129,9 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\perlin.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\constant_medium.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>

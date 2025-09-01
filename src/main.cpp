@@ -6,7 +6,7 @@
 #include "renderer_utils.h"
 #include "camera.h"
 #include "material.h"
-#include "texture.h"
+#include "constant_medium.h"
 
 #include "bvh.h"
 
@@ -258,11 +258,59 @@ void cornellBox() {
     cam.render(world);
 }
 
+void cornellSmoke() {
+    HittableList world;
+
+    auto red = new Lambertian(Vec3(.65, .05, .05));
+    auto white = new Lambertian(Vec3(.73, .73, .73));
+    auto green = new Lambertian(Vec3(.12, .45, .15));
+    auto light = new Light(Vec3(7));
+
+    world.add(new Quad(Vec3(555, 0, -555), Vec3(0, 555, 0), Vec3(0, 0, 555), green));
+    world.add(new Quad(Vec3(0, 0, 0), Vec3(0, 555, 0), Vec3(0, 0, -555), red));
+    world.add(new Quad(Vec3(442, 554, -427), Vec3(-330, 0, 0), Vec3(0, 0, 305), light));
+    world.add(new Quad(Vec3(0, 0, -555), Vec3(555, 0, 0), Vec3(0, 0, 555), white));
+    world.add(new Quad(Vec3(555, 555, -555), Vec3(-555, 0, 0), Vec3(0, 0, 555), white));
+    world.add(new Quad(Vec3(0, 555, -555), Vec3(555, 0, 0), Vec3(0, -555, 0), white));
+
+    Hittable* box1 = Quad::box(Vec3(), Vec3(165, 330, 165), white);
+    box1 = new RotationY(box1, 15);
+    box1 = new Translation(box1, Vec3(320, 0, -500));
+
+    Hittable* box2 = Quad::box(Vec3(), Vec3(165, 165, 165), white);
+    box2 = new RotationY(box2, -18);
+    box2 = new Translation(box2, Vec3(100, 0, -250));
+
+    //world.add(box1);
+    //world.add(box2);
+
+    world.add(new ConstantMedium(0.01, box1, Vec3()));
+    world.add(new ConstantMedium(0.01, box2, Vec3(1)));
+
+
+    Camera cam;
+
+    cam.aspectRatio = 1.0;
+    cam.width = 200;
+    cam.samplesPerPixel = 200;
+    cam.rayRecursionLimit = 50;
+    cam.background = Vec3(0);
+
+    cam.verticalViewAngle = 40;
+    cam.lookfrom = Vec3(278, 278, 800);
+    cam.lookat = Vec3(278, 278, 0);
+    cam.up = Vec3(0, 1, 0);
+
+    cam.defocusAngle = 0;
+
+    cam.render(world);
+}
+
 int main()
 {
     //srand(time(NULL));
     
-    switch (6) {
+    switch (7) {
         case 1:
             coverOfChapterOne(); break;
         case 2:
@@ -275,5 +323,7 @@ int main()
             perlinTest(); break;
         case 6:
             cornellBox(); break;
+        case 7:
+            cornellSmoke(); break;
     }
 }
