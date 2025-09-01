@@ -44,5 +44,6 @@ namespace Renderer {
 		Ray get_ray(int i, int j) const;
 		Vec3 sampleSquare() const;
 		Vec3 diskSample() const;
+		void sectionRender(const HittableList& scenery, uint8_t* pixels, uint32_t index, int min, int max);
 	};
 }

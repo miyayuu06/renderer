@@ -2,6 +2,7 @@
 //
 
 #include <iostream>
+#include <ctime>
 
 #include "renderer_utils.h"
 #include "camera.h"
@@ -291,7 +292,7 @@ void cornellSmoke() {
     Camera cam;
 
     cam.aspectRatio = 1.0;
-    cam.width = 200;
+    cam.width = 600;
     cam.samplesPerPixel = 200;
     cam.rayRecursionLimit = 50;
     cam.background = Vec3(0);
@@ -310,6 +311,8 @@ int main()
 {
     //srand(time(NULL));
     
+    double timeStart = time(NULL);
+
     switch (7) {
         case 1:
             coverOfChapterOne(); break;
@@ -326,4 +329,8 @@ int main()
         case 7:
             cornellSmoke(); break;
     }
+
+    double timeEnd = time(NULL);
+
+    std::cout << std::endl << "The image took " << (int) (timeEnd - timeStart) << " seconds to render." << std::endl;
 }

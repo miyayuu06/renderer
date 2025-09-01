@@ -7,6 +7,7 @@
 #include "material.h"
 
 #include <iostream>
+#include <thread>
 
 namespace Renderer {
     Camera::Camera() {
@@ -76,14 +77,8 @@ namespace Renderer {
 
     }
 
-    void Camera::render(const HittableList& scenery) {
-        initialize();
-
-        uint8_t* pixels = new uint8_t[width * height * CHANNEL_NUM];
-
-        uint32_t index = 0;
-
-        for (int i = 0; i < height; i++) {
+    void Camera::sectionRender(const HittableList& scenery, uint8_t* pixels, uint32_t index, int min, int max) {
+        for (int i = min; i < max; i++) {
             std::cout << "Rendering row: " << i << std::endl;
             for (int j = 0; j < width; j++) {
                 Vec3 pixelColor(0);
@@ -95,6 +90,26 @@ namespace Renderer {
                 pixelColor = pixelColor * samplePixelProportion;
                 Color::writeColor(pixels, index, pixelColor);
             }
+        }
+    }
+
+    void Camera::render(const HittableList& scenery) {
+        initialize();
+
+        uint8_t* pixels = new uint8_t[width * height * CHANNEL_NUM];
+
+        int numberOfThreads = 5;
+        int rows = height / numberOfThreads;
+
+        std::vector<std::thread> threads;
+
+        for (int i = 0; i < numberOfThreads; i++) {
+            uint32_t index = i * rows * width * CHANNEL_NUM;
+            threads.push_back(std::thread(&Camera::sectionRender, this, scenery, pixels, index, i * rows, (i+1) * rows));
+        }
+
+        for (auto &t : threads) {
+            t.join();
         }
 
         if (!stbi_write_png("C:/Users/yunaf/Desktop/testimage.png", width, height, CHANNEL_NUM, pixels, width * CHANNEL_NUM)) {
@@ -109,7 +124,7 @@ namespace Renderer {
         Vec3 offset = sampleSquare();
         Vec3 pixelPosition = pixel00 + deltaH*(offset.x + width) + deltaV* (offset.y + height);
         Vec3 rayOrigin = (defocusAngle <= 0) ? center : diskSample();
-        Vec3 rayDir = pixelPosition - rayOrigin;
+        Vec3 rayDir = (pixelPosition - rayOrigin).norm();
         double rayTime = random();
         return Ray(rayOrigin, rayDir, rayTime);
     }
