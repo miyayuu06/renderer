@@ -24,7 +24,7 @@ namespace Renderer {
 	bool Quad::hit(const Interval& i, const Ray& r, HitProperties& prop) const {
 		double denominator = normal.dot(r.dir());
 
-		if (denominator < 1e-8) {
+		if (fabs(denominator) < 1e-8) {
 			return false;
 		}
 		double t = (D - normal.dot(r.origin())) / denominator;
@@ -61,23 +61,4 @@ namespace Renderer {
 		return true;
 	}
 
-	Hittable* Quad::box(const Vec3& a, const Vec3& b, Material* mat) {
-		Vec3 min = Vec3(fmin(a.x, b.x), fmin(a.y, b.y), fmin(a.z, b.z));
-		Vec3 max = Vec3(fmax(a.x, b.x), fmax(a.y, b.y), fmax(a.z, b.z));
-
-		Vec3 x = Vec3(max.x - min.x, 0, 0);
-		Vec3 y = Vec3(0, max.y - min.y, 0);
-		Vec3 z = Vec3(0, 0, max.z - min.z);
-
-		HittableList* sides = new HittableList();
-
-		sides->add(new Quad(Vec3(min.x, min.y, max.z), y, x, mat));
-		sides->add(new Quad(Vec3(max.x, min.y, max.z), y, -z, mat));
-		sides->add(new Quad(Vec3(max.x, min.y, min.z), y, -x, mat));
-		sides->add(new Quad(Vec3(min.x, min.y, min.z), z, y, mat));
-		sides->add(new Quad(Vec3(min.x, max.y, max.z), -z, x, mat));
-		sides->add(new Quad(Vec3(min.x, min.y, min.z), z, x, mat));
-
-		return sides;
-	}
 }

@@ -230,12 +230,12 @@ void cornellBox() {
     world.add(new Quad(Vec3(555, 555, -555), Vec3(-555, 0, 0), Vec3(0, 0, 555), white));
     world.add(new Quad(Vec3(0, 555, -555), Vec3(555, 0, 0), Vec3(0, -555, 0), white));
 
-    Hittable* box1 = Quad::box(Vec3(), Vec3(165, 330, -165), white);
+    Hittable* box1 = box(Vec3(), Vec3(165, 330, -165), white);
     box1 = new RotationY(box1, 15);
     box1 = new Translation(box1, Vec3(265, 0, -295));
     world.add(box1);
 
-    Hittable* box2 = Quad::box(Vec3(), Vec3(165, 165, -165), white);
+    Hittable* box2 = box(Vec3(), Vec3(165, 165, -165), white);
     box2 = new RotationY(box2, -18);
     box2 = new Translation(box2, Vec3(130, 0, -65));
     world.add(box2);
@@ -274,11 +274,11 @@ void cornellSmoke() {
     world.add(new Quad(Vec3(555, 555, -555), Vec3(-555, 0, 0), Vec3(0, 0, 555), white));
     world.add(new Quad(Vec3(0, 555, -555), Vec3(555, 0, 0), Vec3(0, -555, 0), white));
 
-    Hittable* box1 = Quad::box(Vec3(), Vec3(165, 330, 165), white);
+    Hittable* box1 = box(Vec3(), Vec3(165, 330, 165), white);
     box1 = new RotationY(box1, 15);
     box1 = new Translation(box1, Vec3(320, 0, -500));
 
-    Hittable* box2 = Quad::box(Vec3(), Vec3(165, 165, 165), white);
+    Hittable* box2 = box(Vec3(), Vec3(165, 165, 165), white);
     box2 = new RotationY(box2, -18);
     box2 = new Translation(box2, Vec3(100, 0, -250));
 
