@@ -83,6 +83,10 @@ namespace Renderer {
             int i = printedRows.fetch_sub(1) - 1;
             std::cout << "Remaining rows: " << i << std::endl;
 
+            if (i < 0) {
+                return;
+            }
+
             for (int j = 0; j < width; j++) {
                 Vec3 pixelColor(0);
                 for (int sample = 0; sample < samplesPerPixel; sample++) {

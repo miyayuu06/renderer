@@ -314,7 +314,7 @@ int main()
     
     double timeStart = time(NULL);
 
-    switch (2) {
+    switch (7) {
         case 1:
             coverOfChapterOne(); break;
         case 2:
