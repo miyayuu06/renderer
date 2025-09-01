@@ -11,7 +11,6 @@
 
 namespace Renderer {
     Camera::Camera() {
-
     }
 
     Vec3 Camera::ray_color(const HittableList& scenery, const Ray& r, int depth) {
@@ -44,6 +43,8 @@ namespace Renderer {
         center = lookfrom;
 
         height = int(width / aspectRatio);
+        printedRows = height;
+
         CHANNEL_NUM = 3;
         samplePixelProportion = 1.0 / samplesPerPixel;
 
@@ -77,9 +78,11 @@ namespace Renderer {
 
     }
 
-    void Camera::sectionRender(const HittableList& scenery, uint8_t* pixels, uint32_t index, int min, int max) {
-        for (int i = min; i < max; i++) {
-            std::cout << "Rendering row: " << i << std::endl;
+    void Camera::sectionRender(const HittableList& scenery, uint8_t* pixels) {
+        while (printedRows >= 0) {
+            int i = printedRows.fetch_sub(1) - 1;
+            std::cout << "Remaining rows: " << i << std::endl;
+
             for (int j = 0; j < width; j++) {
                 Vec3 pixelColor(0);
                 for (int sample = 0; sample < samplesPerPixel; sample++) {
@@ -88,6 +91,7 @@ namespace Renderer {
                     pixelColor = pixelColor + ray_color(scenery, ray, rayRecursionLimit);
                 }
                 pixelColor = pixelColor * samplePixelProportion;
+                uint32_t index = (i * width + j) * CHANNEL_NUM;
                 Color::writeColor(pixels, index, pixelColor);
             }
         }
@@ -98,14 +102,12 @@ namespace Renderer {
 
         uint8_t* pixels = new uint8_t[width * height * CHANNEL_NUM];
 
-        int numberOfThreads = 5;
-        int rows = height / numberOfThreads;
+        int numberOfThreads = 32;
 
         std::vector<std::thread> threads;
 
         for (int i = 0; i < numberOfThreads; i++) {
-            uint32_t index = i * rows * width * CHANNEL_NUM;
-            threads.push_back(std::thread(&Camera::sectionRender, this, scenery, pixels, index, i * rows, (i+1) * rows));
+            threads.push_back(std::thread(&Camera::sectionRender, this, scenery, pixels));
         }
 
         for (auto &t : threads) {

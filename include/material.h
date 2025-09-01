@@ -108,7 +108,7 @@ namespace Renderer {
 		Isotropic(const Vec3& color) : tex(new Solid(color)) {}
 
 		bool scatter(const Ray& r, const HitProperties& prop, Vec3& colorAtenuation, Ray& scatteredRay) const {
-			scatteredRay = Ray(prop.intersectionPoint, Vec3::randomUnitVector(), r.tm());
+			scatteredRay = Ray(prop.intersectionPoint, Vec3::randomUnitVector().norm(), r.tm());
 			colorAtenuation = tex->value(prop.u, prop.v, prop.intersectionPoint);
 			return true;
 		}

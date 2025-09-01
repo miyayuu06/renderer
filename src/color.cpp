@@ -18,7 +18,7 @@ namespace Renderer {
 		return result;
 	}
 
-	void Color::writeColor(uint8_t* buffer, uint32_t& index, Vec3& pixel) {
+	void Color::writeColor(uint8_t* buffer, uint32_t index, Vec3& pixel) {
 		pixel.r = linearGamma(pixel.r);
 		pixel.g = linearGamma(pixel.g);
 		pixel.b = linearGamma(pixel.b);

@@ -244,7 +244,7 @@ void cornellBox() {
     Camera cam;
 
     cam.aspectRatio = 1.0;
-    cam.width = 450;
+    cam.width = 600;
     cam.samplesPerPixel = 100;
     cam.rayRecursionLimit = 20;
     cam.background = Vec3(0);
@@ -285,14 +285,15 @@ void cornellSmoke() {
     //world.add(box1);
     //world.add(box2);
 
-    world.add(new ConstantMedium(0.01, box1, Vec3()));
+    world.add(new ConstantMedium(0.01, box1, Vec3(1, 0, 0)));
     world.add(new ConstantMedium(0.01, box2, Vec3(1)));
 
+    //world = HittableList(new BVH(world));
 
     Camera cam;
 
     cam.aspectRatio = 1.0;
-    cam.width = 600;
+    cam.width = 400;
     cam.samplesPerPixel = 200;
     cam.rayRecursionLimit = 50;
     cam.background = Vec3(0);
@@ -313,7 +314,7 @@ int main()
     
     double timeStart = time(NULL);
 
-    switch (7) {
+    switch (2) {
         case 1:
             coverOfChapterOne(); break;
         case 2:

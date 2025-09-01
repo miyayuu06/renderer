@@ -2,6 +2,9 @@
 
 #include "hittable_list.h"
 
+#include <mutex>
+#include <queue>
+
 namespace Renderer {
 	class Camera {
 	public:
@@ -40,10 +43,13 @@ namespace Renderer {
 		Vec3 v;
 		Vec3 w;
 
+		std::mutex m;
+		std::atomic<int> printedRows;
+
 		Vec3 ray_color(const HittableList& world, const Ray& r, int depth);
 		Ray get_ray(int i, int j) const;
 		Vec3 sampleSquare() const;
 		Vec3 diskSample() const;
-		void sectionRender(const HittableList& scenery, uint8_t* pixels, uint32_t index, int min, int max);
+		void sectionRender(const HittableList& scenery, uint8_t* pixels);
 	};
 }

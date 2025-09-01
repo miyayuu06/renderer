@@ -13,6 +13,6 @@ namespace Renderer {
 	private:
 		double density;
 		Hittable* boundary;
-		Material* mat;
+		Material* material;
 	};
 }

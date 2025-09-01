@@ -22,12 +22,12 @@ namespace Renderer {
 
 	bool HittableList::hit(const Interval& interval, const Ray& r, HitProperties& prop) const {
 		bool objectCollisionProduced = false;
-		double closestSoFar = interval.maxi();
+		double closestSoFar = interval.maximum;
 		HitProperties auxiliaryProp;
 		
 		
 		for (Hittable* object : objCollection) {
-			if (object->hit(Interval(interval.mini(), closestSoFar), r, auxiliaryProp)) {
+			if (object->hit(Interval(interval.minimum, closestSoFar), r, auxiliaryProp)) {
 				objectCollisionProduced = true;
 				closestSoFar = auxiliaryProp.tValue;
 				prop = auxiliaryProp;
