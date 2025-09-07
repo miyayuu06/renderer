@@ -395,12 +395,11 @@ HittableList* objread(const std::string filename) {
 
     HittableList* world = new HittableList();
 
-    std::vector<Hittable*> triangles;
     std::vector<Vec3> coordinates;
     std::vector<Vec3> textures;
     std::vector<Vec3> normals;
 
-    Lambertian* tex = new Lambertian(Vec3(0.8));
+    Lambertian* tex = new Lambertian(Vec3(0.5));
 
     while (std::getline(file, s)) {
         std::istringstream line(s);
@@ -469,18 +468,121 @@ HittableList* objread(const std::string filename) {
     return world;
 }
 
-void objRender(HittableList* world) {
+HittableList* objmetal(const std::string filename) {
+    std::ifstream file(filename);
+
+    if (!file.is_open()) {
+        std::cerr << "Error opening the file!";
+        return new HittableList();
+    }
+    std::string s;
+
+    HittableList* world = new HittableList();
+
+    std::vector<Vec3> coordinates;
+    std::vector<Vec3> textures;
+    std::vector<Vec3> normals;
+
+    Metal* tex = new Metal(Vec3(0.8, 0.47, 0.14), 0.9);
+
+    while (std::getline(file, s)) {
+        std::istringstream line(s);
+        std::string type;
+
+        line >> type;
+
+        if (type == "v") {
+            float x, y, z;
+            line >> x >> y >> z;
+            coordinates.push_back(Vec3(x, y, z));
+        }
+
+        if (type == "vt") {
+            float x, y, z;
+            line >> x >> y >> z;
+            textures.push_back(Vec3(x, y, z));
+        }
+
+        if (type == "vn") {
+            float x, y, z;
+            line >> x >> y >> z;
+            normals.push_back(Vec3(x, y, z));
+        }
+
+        if (type == "f") {
+            std::vector<int> vIdx, tIdx, nIdx;
+            std::string token;
+
+            while (line >> token) {
+                int v = 0, t = 0, n = 0;
+
+                if (sscanf(token.c_str(), "%d/%d/%d", &v, &t, &n) == 3) {
+                    vIdx.push_back(v - 1);
+                    tIdx.push_back(t - 1);
+                    nIdx.push_back(n - 1);
+                }
+                else if (sscanf(token.c_str(), "%d//%d", &v, &n) == 2) {
+                    vIdx.push_back(v - 1);
+                    nIdx.push_back(n - 1);
+                }
+                else if (sscanf(token.c_str(), "%d/%d", &v, &t) == 2) {
+                    vIdx.push_back(v - 1);
+                    tIdx.push_back(t - 1);
+                }
+                else if (sscanf(token.c_str(), "%d", &v) == 1) {
+                    vIdx.push_back(v - 1);
+                }
+            }
+
+            for (size_t i = 1; i + 1 < vIdx.size(); i++) {
+                Vec3 v0 = coordinates[vIdx[0]];
+                Vec3 v1 = coordinates[vIdx[i]];
+                Vec3 v2 = coordinates[vIdx[i + 1]];
+
+                Vec3 u = v2 - v0;
+                Vec3 v = v1 - v0;
+
+                world->add(new Triangle(v0, u, v, tex));
+            }
+        }
+    }
+
+    file.close();
+
+    return world;
+}
+
+void objRender(HittableList* world, int size) {
     Camera cam;
 
     cam.aspectRatio = 1.0;
-    cam.width = 1600;
+    cam.width = size;
     cam.samplesPerPixel = 50;
     cam.rayRecursionLimit = 20;
-    cam.background = Vec3(1.0);
+    cam.background = Vec3(0.7);
 
     cam.verticalViewAngle = 40;
     cam.lookfrom = Vec3(100, -100, 50);
-    cam.lookat = Vec3(0, 0, 50);
+    cam.lookat = Vec3(0, 0, 25);
+    cam.up = Vec3(0, 0, 1);
+
+    cam.defocusAngle = 0;
+
+    cam.render(world);
+}
+
+void skullCamera(HittableList* world, int size) {
+    Camera cam;
+
+    cam.aspectRatio = 1.0;
+    cam.width = size;
+    cam.samplesPerPixel = 50;
+    cam.rayRecursionLimit = 20;
+    cam.background = Vec3(0.7);
+
+    cam.verticalViewAngle = 40;
+    cam.lookfrom = Vec3(50, -70, 20);
+    cam.lookat = Vec3(0, 0, 20);
     cam.up = Vec3(0, 0, 1);
 
     cam.defocusAngle = 0;
@@ -494,7 +596,7 @@ int main()
     
     double timeStart = time(NULL);
 
-    switch (9) {
+    switch (10) {
         case 1:
             coverOfChapterOne(); break;
         case 2:
@@ -510,11 +612,17 @@ int main()
         case 7:
             cornellSmoke(); break;
         case 8:
-            final_scene(1200, 1000, 40);
-        case 9:
+            final_scene(1200, 1000, 40); break;
+        case 9: {
             std::string filename = "C:/Users/yunaf/Desktop/Skull/Bird.obj";
-            objRender(objread(filename));
+            objRender(objread(filename), 600);
             break;
+        }
+        case 10: {
+            std::string file = "C:/Users/yunaf/Desktop/Skull/Skull.obj";
+            skullCamera(objmetal(file), 600);
+            break;
+        }
     }
 
     double timeEnd = time(NULL);
