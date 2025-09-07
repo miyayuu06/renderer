@@ -3,6 +3,8 @@
 
 #include <iostream>
 #include <ctime>
+#include <fstream>
+#include <sstream>
 
 #include "renderer_utils.h"
 #include "camera.h"
@@ -156,10 +158,6 @@ void quads() {
     //world.add(new Triangle(Vec3(-2, -2, 0), Vec3(4, 0, 0), Vec3(2, 4, 0), green));
     //world.add(new Disk(Vec3(-2, 2, 0), Vec3(0, 4, 0), Vec3(4, 0, 0), green, 2.0));
 
-
-    //DISK TO BE IMPLEMENTED
-
-
     world.add(new Quad(Vec3(3, -2, -1), Vec3(0, 0, -4), Vec3(0, 4, 0), blue));
     world.add(new Quad(Vec3(-2, 3, -1), Vec3(4, 0, 0), Vec3(0, 0, -4), orange));
     world.add(new Quad(Vec3(-2, -3, -5), Vec3(4, 0, 0), Vec3(0, 0, 4), teal));
@@ -308,13 +306,195 @@ void cornellSmoke() {
     cam.render(world);
 }
 
+void final_scene(int image_width, int samples_per_pixel, int max_depth) {
+    HittableList boxes1;
+    auto ground = new Lambertian(Vec3(0.48, 0.83, 0.53));
+
+    int boxes_per_side = 20;
+    for (int i = 0; i < boxes_per_side; i++) {
+        for (int j = 0; j < boxes_per_side; j++) {
+            auto w = 100.0;
+            auto x0 = -1000.0 + i * w;
+            auto z0 = -1000.0 + j * w;
+            auto y0 = 0.0;
+            auto x1 = x0 + w;
+            auto y1 = randomRealNumber(1, 101);
+            auto z1 = z0 + w;
+
+            boxes1.add(box(Vec3(x0, y0, z0), Vec3(x1, y1, z1), ground));
+        }
+    }
+
+    HittableList world;
+
+    world.add(new BVH(boxes1));
+
+    auto light = new Light(Vec3(7, 7, 7));
+    world.add(new Quad(Vec3(123, 554, 147), Vec3(300, 0, 0), Vec3(0, 0, 265), light));
+
+    auto center1 = Vec3(400, 400, 200);
+    auto center2 = center1 + Vec3(30, 0, 0);
+    auto sphere_material = new Lambertian(Vec3(0.7, 0.3, 0.1));
+    world.add(new Sphere(center1, center2, 50, sphere_material));
+
+    world.add(new Sphere(Vec3(260, 150, 45), 50, new Dielectric(1.5)));
+    world.add(new Sphere(Vec3(0, 150, 145), 50, new Metal(Vec3(0.8, 0.8, 0.9), 1.0)
+    ));
+
+    auto boundary = new Sphere(Vec3(360, 150, 145), 70, new Dielectric(1.5));
+    world.add(boundary);
+    world.add(new ConstantMedium(0.2, boundary, Vec3(0.2, 0.4, 0.9)));
+    boundary = new Sphere(Vec3(0, 0, 0), 5000, new Dielectric(1.5));
+    world.add(new ConstantMedium(0.0001, boundary, Vec3(1, 1, 1)));
+
+    auto emat = new Lambertian(new ImageTexture("C:/users/yunaf/Documents/projects/renderer/MixedMedia/earthmap.jpg"));
+    world.add(new Sphere(Vec3(400, 200, 400), 100, emat));
+    auto pertext = new NoiseTexture(0.2);
+    world.add(new Sphere(Vec3(220, 280, 300), 80, new Lambertian(pertext)));
+
+    HittableList boxes2;
+    auto white = new Lambertian(Vec3(.73, .73, .73));
+    int ns = 1000;
+    for (int j = 0; j < ns; j++) {
+        boxes2.add(new Sphere(Vec3::random(0, 165), 10, white));
+    }
+
+    world.add(new Translation(
+        new RotationY(
+            new BVH(boxes2), 15),
+        Vec3(-100, 270, 395)
+    )
+    );
+
+    Camera cam;
+
+    cam.aspectRatio = 1.0;
+    cam.width = image_width;
+    cam.samplesPerPixel = samples_per_pixel;
+    cam.rayRecursionLimit = max_depth;
+    cam.background = Vec3(0, 0, 0);
+
+    cam.verticalViewAngle = 40;
+    cam.lookfrom = Vec3(478, 278, -600);
+    cam.lookat = Vec3(278, 278, 0);
+    cam.up = Vec3(0, 1, 0);
+
+    cam.defocusAngle = 0;
+
+    cam.render(world);
+}
+
+HittableList* objread(const std::string filename) {
+    std::ifstream file(filename);
+
+    if (!file.is_open()) {
+        std::cerr << "Error opening the file!";
+        return new HittableList();
+    }
+    std::string s;
+
+    HittableList* world = new HittableList();
+
+    std::vector<Hittable*> triangles;
+    std::vector<Vec3> coordinates;
+    std::vector<Vec3> textures;
+    std::vector<Vec3> normals;
+
+    Lambertian* tex = new Lambertian(Vec3(0.8));
+
+    while (std::getline(file, s)) {
+        std::istringstream line(s);
+        std::string type;
+
+        line >> type;
+
+        if (type == "v") {
+            float x, y, z;
+            line >> x >> y >> z;
+            coordinates.push_back(Vec3(x, y, z));
+        }
+
+        if (type == "vt") {
+            float x, y, z;
+            line >> x >> y >> z;
+            textures.push_back(Vec3(x, y, z));
+        }
+
+        if (type == "vn") {
+            float x, y, z;
+            line >> x >> y >> z;
+            normals.push_back(Vec3(x, y, z));
+        }
+
+        if (type == "f") {
+            std::vector<int> vIdx, tIdx, nIdx;
+            std::string token;
+
+            while (line >> token) {
+                int v = 0, t = 0, n = 0;
+
+                if (sscanf(token.c_str(), "%d/%d/%d", &v, &t, &n) == 3) {
+                    vIdx.push_back(v - 1);
+                    tIdx.push_back(t - 1);
+                    nIdx.push_back(n - 1);
+                }
+                else if (sscanf(token.c_str(), "%d//%d", &v, &n) == 2) {
+                    vIdx.push_back(v - 1);
+                    nIdx.push_back(n - 1);
+                }
+                else if (sscanf(token.c_str(), "%d/%d", &v, &t) == 2) {
+                    vIdx.push_back(v - 1);
+                    tIdx.push_back(t - 1);
+                }
+                else if (sscanf(token.c_str(), "%d", &v) == 1) {
+                    vIdx.push_back(v - 1);
+                }
+            }
+
+            for (size_t i = 1; i + 1 < vIdx.size(); i++) {
+                Vec3 v0 = coordinates[vIdx[0]];
+                Vec3 v1 = coordinates[vIdx[i]];
+                Vec3 v2 = coordinates[vIdx[i + 1]];
+
+                Vec3 u = v2 - v0;
+                Vec3 v = v1 - v0;
+
+                world->add(new Triangle(v0, u, v, tex));
+            }
+        }
+    }
+
+    file.close();    
+
+    return world;
+}
+
+void objRender(HittableList* world) {
+    Camera cam;
+
+    cam.aspectRatio = 1.0;
+    cam.width = 1600;
+    cam.samplesPerPixel = 50;
+    cam.rayRecursionLimit = 20;
+    cam.background = Vec3(1.0);
+
+    cam.verticalViewAngle = 40;
+    cam.lookfrom = Vec3(100, -100, 50);
+    cam.lookat = Vec3(0, 0, 50);
+    cam.up = Vec3(0, 0, 1);
+
+    cam.defocusAngle = 0;
+
+    cam.render(world);
+}
+
 int main()
 {
     //srand(time(NULL));
     
     double timeStart = time(NULL);
 
-    switch (7) {
+    switch (9) {
         case 1:
             coverOfChapterOne(); break;
         case 2:
@@ -329,6 +509,12 @@ int main()
             cornellBox(); break;
         case 7:
             cornellSmoke(); break;
+        case 8:
+            final_scene(1200, 1000, 40);
+        case 9:
+            std::string filename = "C:/Users/yunaf/Desktop/Skull/Bird.obj";
+            objRender(objread(filename));
+            break;
     }
 
     double timeEnd = time(NULL);

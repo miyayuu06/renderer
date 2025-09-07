@@ -13,7 +13,7 @@ namespace Renderer {
 	bool Disk::hit(const Interval& i, const Ray& r, HitProperties& prop) const {
 		double denominator = normal.dot(r.dir());
 
-		if (denominator < 1e-8) {
+		if (fabs(denominator) < 1e-8) {
 			return false;
 		}
 		double t = (D - normal.dot(r.origin())) / denominator;

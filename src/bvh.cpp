@@ -25,7 +25,7 @@ namespace Renderer {
 
 			auto mid = start + span / 2;
 			left = new BVH(l, start, mid);
-			right = new BVH(l, mid + 1, end);
+			right = new BVH(l, mid, end);
 		}
 
 		bbox = AABB(left->boundingBox(), right->boundingBox());
@@ -37,7 +37,8 @@ namespace Renderer {
 		}
 		
 		bool leftHit = left->hit(t, r, record);
-		bool rightHit = right->hit(Interval(t.minimum, leftHit ? record.tValue : t.maximum), r, record);
+		double tMax = leftHit ? record.tValue : t.maximum;
+		bool rightHit = right->hit(Interval(t.minimum, tMax), r, record);
 
 		return leftHit || rightHit;
 	}
@@ -47,8 +48,7 @@ namespace Renderer {
 	}
 
 	bool BVH::boxCompare(const Hittable* a, const Hittable* b, int axis) {
-		bool comp = a->boundingBox().axisInterval(axis).minimum < b->boundingBox().axisInterval(axis).minimum;;
-		return axis == 2 ? !comp : comp;
+		return a->boundingBox().axisInterval(axis).minimum < b->boundingBox().axisInterval(axis).minimum;
 	}
 
 	bool BVH::boxCompareX(const Hittable* a, const Hittable* b) {
@@ -60,6 +60,6 @@ namespace Renderer {
 	}
 
 	bool BVH::boxCompareZ(const Hittable* a, const Hittable* b) {
-		return boxCompare(a, b, 2);
+		return b->boundingBox().axisInterval(2).minimum < a->boundingBox().axisInterval(2).minimum;;
 	}
 }

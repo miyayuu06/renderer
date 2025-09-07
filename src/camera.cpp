@@ -107,7 +107,7 @@ namespace Renderer {
 
         uint8_t* pixels = new uint8_t[width * height * CHANNEL_NUM];
 
-        int numberOfThreads = 32;
+        int numberOfThreads = 8;
 
         std::vector<std::thread> threads;
 
