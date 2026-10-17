@@ -1,5 +1,4 @@
 <p align="center">
-  <img src="./MixedMedia/skull.png" alt="Skull" width="200"/>
   <img src="./MixedMedia/perlinWithLights.png" alt="Perlin with Lights" width="359"/>
   <img src="./MixedMedia/better birb.png" alt="Bird output" width="200"/>
   <img src="./MixedMedia/coverOfTTwo_v2.png" alt="V2 Cover" width="200"/>
